@@ -1,0 +1,10 @@
+insert into BRAND (NAME) values ('Powermatic');
+insert into BRAND (NAME) values ('BelMash');
+insert into BRAND (NAME) values ('WoodKraft');
+insert into BRAND (NAME) values ('FORMIGO');
+insert into BRAND (NAME) values ('Кратон');
+insert into BRAND (NAME) values ('DELTAMACHINERY');
+insert into BRAND (NAME) values ('KROM');
+insert into BRAND (NAME) values ('Sturm');
+insert into BRAND (NAME) values ('Могилев');
+insert into BRAND (NAME) values ('JET');

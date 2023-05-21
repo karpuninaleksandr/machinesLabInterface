@@ -1,9 +1,10 @@
-package ru.ac.uniyar.machineslabinterface;
+package ru.ac.uniyar.application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ru.ac.uniyar.objects.DataExtractor;
 
 import java.io.IOException;
 
@@ -18,6 +19,7 @@ public class LabApplication extends Application {
     }
 
     public static void main(String[] args) {
+        DataExtractor.init();
         launch();
     }
 }

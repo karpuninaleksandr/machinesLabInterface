@@ -7,7 +7,10 @@ module ru.ac.uniyar.machineslabinterface {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires java.sql;
 
-    opens ru.ac.uniyar.machineslabinterface to javafx.fxml;
-    exports ru.ac.uniyar.machineslabinterface;
+    opens ru.ac.uniyar.application to javafx.fxml;
+    exports ru.ac.uniyar.application;
+    exports ru.ac.uniyar.objects;
+    opens ru.ac.uniyar.objects to javafx.fxml;
 }
