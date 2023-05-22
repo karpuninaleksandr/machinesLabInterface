@@ -13,6 +13,13 @@ public class Machine implements Entity {
         this.brandId = brandId;
     }
 
+    public Machine(String name, int rentPrice, int brandId) {
+        this.id = 0;
+        this.name = name;
+        this.rentPrice = rentPrice;
+        this.brandId = brandId;
+    }
+
     public int getId() {
         return this.id;
     }

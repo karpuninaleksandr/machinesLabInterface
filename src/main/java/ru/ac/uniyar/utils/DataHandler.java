@@ -91,15 +91,26 @@ public class DataHandler {
         addEntity(6, brand);
     }
 
+    public static void addMachine(Machine machine) {
+        addEntity(7, machine);
+    }
+
     private static void addEntity(int queryId, Entity entity) {
         try {
             PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
             switch (queryId) {
                 case 6: {
                     ps.setString(1, ((Brand) entity).getName());
-                    ps.executeQuery();
+                    break;
+                }
+                case 7: {
+                    ps.setString(1, ((Client) entity).getName());
+                    ps.setString(2, ((Client) entity).getAddress());
+                    ps.setString(3, ((Client) entity).getPhoneNumber());
+                    break;
                 }
             }
+            ps.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }

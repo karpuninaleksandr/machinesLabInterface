@@ -13,6 +13,13 @@ public class Client implements Entity {
         this.phoneNumber = phoneNumber;
     }
 
+    public Client(String name, String address, String phoneNumber) {
+        this.id = 0;
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
+
     public int getId() {
         return this.id;
     }
