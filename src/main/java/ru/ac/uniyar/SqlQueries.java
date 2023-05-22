@@ -1,10 +1,11 @@
-package ru.ac.uniyar.objects;
+package ru.ac.uniyar;
 
 import java.util.Arrays;
 
 public enum SqlQueries {
     GetAllBrands(1, "SELECT * FROM BRAND"),
-    GetAllMachines(2, "SELECT * FROM MACHINE");
+    GetAllMachines(2, "SELECT * FROM MACHINE"),
+    GetAllClients(3, "SELECT * FROM CLIENT");
 
     private final int id;
     private final String query;

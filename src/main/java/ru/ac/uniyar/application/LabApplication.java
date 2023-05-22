@@ -9,6 +9,7 @@ import ru.ac.uniyar.objects.DataExtractor;
 import java.io.IOException;
 
 public class LabApplication extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(LabApplication.class.getResource("main-page.fxml"));

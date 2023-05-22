@@ -5,15 +5,83 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ru.ac.uniyar.application.MainPageController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.ac.uniyar.application.MainPageController">
+    <children>
+        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <StackPane>
+                <children>
+                    <MenuBar>
+                        <menus>
+                            <Menu mnemonicParsing="false" text="Справочная информация">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="О приложении"/>
+                                    <MenuItem mnemonicParsing="false" text="О создателе"/>
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Бренды">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="Список всех брендов" onAction="#onShowBrandsButtonClick"/>
+                                    <MenuItem mnemonicParsing="false" text="Добавление бренда"/>
+                                    <MenuItem mnemonicParsing="false" text="Удаление бренда"/>
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Станки">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="Список всех станков" onAction="#onShowMachinesButtonClick"/>
+                                    <MenuItem mnemonicParsing="false" text="Добавление станка"/>
+                                    <MenuItem mnemonicParsing="false" text="Удаление станка"/>
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Клиенты">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="Список всех клиентов" onAction="#onShowClientsButtonClick"/>
+                                    <MenuItem mnemonicParsing="false" text="Добавление клиента"/>
+                                    <MenuItem mnemonicParsing="false" text="Удаление клиента"/>
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Договоры об аренде">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="Список всех договоров"/>
+                                    <MenuItem mnemonicParsing="false" text="Добавление договора"/>
+                                    <MenuItem mnemonicParsing="false" text="Удаление договора"/>
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Истории платежей">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" text="Список всех платежей"/>
+                                    <MenuItem mnemonicParsing="false" text="Добавление платежа"/>
+                                    <MenuItem mnemonicParsing="false" text="Удаление платежа"/>
+                                </items>
+                            </Menu>
 
-    <Label fx:id="machinesText"/>
-    <Button text="Machines" onAction="#onShowMachinesButtonClick"/>
-
-    <Label fx:id="brandsText"/>
-    <Button text="Brands" onAction="#onShowBrandsButtonClick"/>
-</VBox>
+                        </menus>
+                    </MenuBar>
+                    <Label text="Деревообрабатывающие станки" StackPane.alignment="CENTER_RIGHT">
+                        <StackPane.margin>
+                            <Insets right="10.0" />
+                        </StackPane.margin>
+                    </Label>
+                </children>
+            </StackPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" fx:id="mainPane">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+                <children>
+<!--                    <Label fx:id="mainText"/>-->
+                    <Button text="Machines" onAction="#onShowMachinesButtonClick"/>
+<!--                    <Button text="Brands" onAction="#onShowBrandsButtonClick"/>-->
+<!--                    <Button text="Clients" onAction="#onShowClientsButtonClick"/>-->
+                </children>
+            </AnchorPane>
+        </VBox>
+    </children>
+</AnchorPane>

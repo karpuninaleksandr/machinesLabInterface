@@ -1,10 +1,10 @@
 package ru.ac.uniyar.objects;
 
 public class Machine implements Entity {
-    private int id;
-    private String name;
-    private int rentPrice;
-    private int brandId;
+    private final int id;
+    private final String name;
+    private final int rentPrice;
+    private final int brandId;
 
     public Machine(int id, String name, int rentPrice, int brandId) {
         this.id = id;
@@ -13,16 +13,16 @@ public class Machine implements Entity {
         this.brandId = brandId;
     }
 
-    public int id() {
+    public int getId() {
         return this.id;
     }
-    public String name() {
+    public String getName() {
         return this.name;
     }
-    public int rentPrice() {
+    public int getRentPrice() {
         return rentPrice;
     }
-    public int brandId() {
+    public int getBrandId() {
         return brandId;
     }
 }

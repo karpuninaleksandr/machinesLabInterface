@@ -13,4 +13,6 @@ module ru.ac.uniyar.machineslabinterface {
     exports ru.ac.uniyar.application;
     exports ru.ac.uniyar.objects;
     opens ru.ac.uniyar.objects to javafx.fxml;
+    exports ru.ac.uniyar;
+    opens ru.ac.uniyar to javafx.fxml;
 }

@@ -9,10 +9,10 @@ public class Brand implements Entity {
         this.name = name;
     }
 
-    public int id() {
+    public int getId() {
         return this.id;
     }
-    public String name() {
+    public String getName() {
         return this.name;
     }
 }
