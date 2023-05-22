@@ -9,7 +9,8 @@ public enum SqlQueries {
     GetAllPayments(4, "SELECT * FROM PAYMENT"),
     GetAllRentAgreements(5, "SELECT * FROM RENTAGREEMENT"),
     AddBrand(6, "INSERT INTO BRAND (NAME) VALUES (?)"),
-    AddClient(7, "INSERT INTO CLIENT (NAME, ADDRESS, PHONENUMBER) VALUES (?, ?, ?)");
+    AddMachine(7, "INSERT INTO MACHINE (NAME, RENTPRICE, BRANDID) VALUES (?, ?, ?)"),
+    AddClient(8, "INSERT INTO CLIENT (NAME, ADDRESS, PHONENUMBER) VALUES (?, ?, ?)");
 
     private final int id;
     private final String query;

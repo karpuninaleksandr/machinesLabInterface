@@ -144,6 +144,27 @@ public class MainPageController {
         mainPane.getChildren().clear();
         Label nameLabel = new Label("Наименование станка:");
         TextField nameField = new TextField();
+        Label rentPriceLabel = new Label("Стоимость аренды:");
+        TextField rentPriceField = new TextField();
+        Label brandIdLabel = new Label("ID бренда:");
+        TextField brandIdField = new TextField();
+        Button addButton = new Button("Добавить");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                DataHandler.addMachine(new Machine(nameField.getText(), Integer.parseInt(rentPriceField.getText()),
+                        Integer.parseInt(brandIdField.getText())));
+            }
+        });
+        mainPane.getChildren().addAll(nameLabel, nameField, rentPriceLabel, rentPriceField, brandIdLabel, brandIdField,
+                addButton);
+    }
+
+    @FXML
+    protected void onAddClientButtonClick() {
+        mainPane.getChildren().clear();
+        Label nameLabel = new Label("Имя:");
+        TextField nameField = new TextField();
         Label addressLabel = new Label("Адрес:");
         TextField addressField = new TextField();
         Label phoneNumberLabel = new Label("Телефон:");
@@ -152,17 +173,12 @@ public class MainPageController {
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DataHandler.addMachine(new Machine(nameField.getText(), Integer.parseInt(addressField.getText()),
-                        Integer.parseInt(phoneNumberField.getText())));
+                DataHandler.addClient(new Client(nameField.getText(), addressField.getText(),
+                        phoneNumberField.getText()));
             }
         });
         mainPane.getChildren().addAll(nameLabel, nameField, addressLabel, addressField, phoneNumberLabel, phoneNumberField,
                 addButton);
-    }
-
-    @FXML
-    protected void onAddClientButtonClick() {
-
     }
 
     @FXML

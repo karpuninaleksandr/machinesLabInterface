@@ -95,6 +95,10 @@ public class DataHandler {
         addEntity(7, machine);
     }
 
+    public static void addClient(Client client) {
+        addEntity(8, client);
+    }
+
     private static void addEntity(int queryId, Entity entity) {
         try {
             PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
@@ -104,9 +108,15 @@ public class DataHandler {
                     break;
                 }
                 case 7: {
+                    ps.setString(1, ((Machine) entity).getName());
+                    ps.setInt(2, ((Machine) entity).getBrandId());
+                    ps.setInt(3, ((Machine) entity).getBrandId());
+                    break;
+                }
+                case 8: {
                     ps.setString(1, ((Client) entity).getName());
-                    ps.setString(2, ((Client) entity).getAddress());
-                    ps.setString(3, ((Client) entity).getPhoneNumber());
+                    ps.setString(1, ((Client) entity).getAddress());
+                    ps.setString(1, ((Client) entity).getPhoneNumber());
                     break;
                 }
             }
