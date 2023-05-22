@@ -49,14 +49,14 @@
                             </Menu>
                             <Menu mnemonicParsing="false" text="Договоры об аренде">
                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="Список всех договоров"/>
+                                    <MenuItem mnemonicParsing="false" text="Список всех договоров" onAction="#onShowRentAgreementsButtonClick"/>
                                     <MenuItem mnemonicParsing="false" text="Добавление договора"/>
                                     <MenuItem mnemonicParsing="false" text="Удаление договора"/>
                                 </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Истории платежей">
                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="Список всех платежей"/>
+                                    <MenuItem mnemonicParsing="false" text="Список всех платежей" onAction="#onShowPaymentsButtonClick"/>
                                     <MenuItem mnemonicParsing="false" text="Добавление платежа"/>
                                     <MenuItem mnemonicParsing="false" text="Удаление платежа"/>
                                 </items>

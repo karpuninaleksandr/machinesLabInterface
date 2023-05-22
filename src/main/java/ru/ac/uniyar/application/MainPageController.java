@@ -2,18 +2,13 @@ package ru.ac.uniyar.application;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import ru.ac.uniyar.objects.Brand;
-import ru.ac.uniyar.objects.Client;
-import ru.ac.uniyar.objects.DataExtractor;
-import ru.ac.uniyar.objects.Machine;
+import ru.ac.uniyar.utils.DataExtractor;
+import ru.ac.uniyar.objects.*;
 
 
 public class MainPageController {
@@ -21,7 +16,7 @@ public class MainPageController {
     private AnchorPane mainPane;
 
     @FXML
-    protected void onShowBrandsButtonClick(ActionEvent actionEvent) {
+    protected void onShowBrandsButtonClick() {
         ObservableList<Brand> brands = FXCollections.observableList(DataExtractor.getBrands());
 
         TableColumn<Brand, Integer> idColumn = new TableColumn<>("ID в таблице");
@@ -75,6 +70,55 @@ public class MainPageController {
         table.setPrefHeight(500);
         table.setPrefWidth(450);
         table.getColumns().addAll(idColumn, nameColumn, addressColumn, phoneNumberColumn);
+        mainPane.getChildren().clear();
+        mainPane.getChildren().add(table);
+    }
+
+    @FXML
+    protected void onShowPaymentsButtonClick() {
+        ObservableList<Payment> clients = FXCollections.observableList(DataExtractor.getPayments());
+
+        TableColumn<Payment, Integer> idColumn = new TableColumn<>("ID в таблице");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn<Payment, String> dateColumn = new TableColumn<>("Дата платежа");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        TableColumn<Payment, String> rentAgreementIdColumn = new TableColumn<>("ID Договора");
+        rentAgreementIdColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        TableColumn<Payment, String> moneyPaidColumn = new TableColumn<>("Размер платежа");
+        moneyPaidColumn.setCellValueFactory(new PropertyValueFactory<>("moneyPaid"));
+
+        TableView<Payment> table = new TableView<>(clients);
+        table.setPrefHeight(500);
+        table.setPrefWidth(450);
+        table.getColumns().addAll(idColumn, dateColumn, rentAgreementIdColumn, moneyPaidColumn);
+        mainPane.getChildren().clear();
+        mainPane.getChildren().add(table);
+    }
+
+    @FXML
+    protected void onShowRentAgreementsButtonClick() {
+        ObservableList<RentAgreement> clients = FXCollections.observableList(DataExtractor.getRentAgreements());
+
+        TableColumn<RentAgreement, Integer> idColumn = new TableColumn<>("ID в таблице");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn<RentAgreement, String> paymentTypeColumn = new TableColumn<>("Тип платежа");
+        paymentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("paymentType"));
+        TableColumn<RentAgreement, String> startDateColumn = new TableColumn<>("Дата начала договора");
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        TableColumn<RentAgreement, String> expireDateColumn = new TableColumn<>("Дата окончания договора");
+        expireDateColumn.setCellValueFactory(new PropertyValueFactory<>("expireDate"));
+        TableColumn<RentAgreement, String> rateColumn = new TableColumn<>("Тариф");
+        rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
+        TableColumn<RentAgreement, String> clientIdColumn = new TableColumn<>("ID клиента в таблице");
+        clientIdColumn.setCellValueFactory(new PropertyValueFactory<>("clientId"));
+        TableColumn<RentAgreement, String> machineIdColumn = new TableColumn<>("ID станка в таблице");
+        machineIdColumn.setCellValueFactory(new PropertyValueFactory<>("machineId"));
+
+        TableView<RentAgreement> table = new TableView<>(clients);
+        table.setPrefHeight(500);
+        table.setPrefWidth(650);
+        table.getColumns().addAll(idColumn, paymentTypeColumn, startDateColumn, expireDateColumn, rateColumn,
+                clientIdColumn, machineIdColumn);
         mainPane.getChildren().clear();
         mainPane.getChildren().add(table);
     }

@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ru.ac.uniyar.objects.DataExtractor;
+import ru.ac.uniyar.utils.DataExtractor;
 
 import java.io.IOException;
 

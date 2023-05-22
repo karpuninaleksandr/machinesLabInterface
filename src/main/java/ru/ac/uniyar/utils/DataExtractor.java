@@ -1,6 +1,6 @@
-package ru.ac.uniyar.objects;
+package ru.ac.uniyar.utils;
 
-import ru.ac.uniyar.SqlQueries;
+import ru.ac.uniyar.objects.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,14 @@ public class DataExtractor {
         return getData(3).stream().map(it -> (Client) it).collect(Collectors.toList());
     }
 
+    public static List<Payment> getPayments() {
+        return getData(4).stream().map(it -> (Payment) it).collect(Collectors.toList());
+    }
+
+    public static List<RentAgreement> getRentAgreements() {
+        return getData(5).stream().map(it -> (RentAgreement) it).collect(Collectors.toList());
+    }
+
     protected static List<Entity> getData(int queryId) {
         ArrayList<Entity> result = new ArrayList<>();
         try {
@@ -56,6 +64,21 @@ public class DataExtractor {
                         result.add(new Client(rs.getInt(1), rs.getString(2), rs.getString(3),
                                 rs.getString(4)));
                     }
+                    break;
+                }
+                case 4: {
+                    while (rs.next()) {
+                        result.add(new Payment(rs.getInt(1), rs.getDate(2), rs.getInt(3),
+                                rs.getInt(4)));
+                    }
+                    break;
+                }
+                case 5: {
+                    while (rs.next()) {
+                        result.add(new RentAgreement(rs.getInt(1), rs.getString(2), rs.getDate(3),
+                                rs.getDate(4), rs.getDouble(5), rs.getInt(6), rs.getInt(7)));
+                    }
+                    break;
                 }
             }
         } catch (SQLException e) {
