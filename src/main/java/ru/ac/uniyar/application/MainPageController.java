@@ -2,12 +2,13 @@ package ru.ac.uniyar.application;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import ru.ac.uniyar.utils.DataExtractor;
+import ru.ac.uniyar.utils.DataHandler;
 import ru.ac.uniyar.objects.*;
 
 
@@ -17,7 +18,7 @@ public class MainPageController {
 
     @FXML
     protected void onShowBrandsButtonClick() {
-        ObservableList<Brand> brands = FXCollections.observableList(DataExtractor.getBrands());
+        ObservableList<Brand> brands = FXCollections.observableList(DataHandler.getBrands());
 
         TableColumn<Brand, Integer> idColumn = new TableColumn<>("ID в таблице");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -34,7 +35,7 @@ public class MainPageController {
 
     @FXML
     protected void onShowMachinesButtonClick() {
-        ObservableList<Machine> machines = FXCollections.observableList(DataExtractor.getMachines());
+        ObservableList<Machine> machines = FXCollections.observableList(DataHandler.getMachines());
 
         TableColumn<Machine, Integer> idColumn = new TableColumn<>("ID в таблице");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -55,7 +56,7 @@ public class MainPageController {
 
     @FXML
     protected void onShowClientsButtonClick() {
-        ObservableList<Client> clients = FXCollections.observableList(DataExtractor.getClients());
+        ObservableList<Client> clients = FXCollections.observableList(DataHandler.getClients());
 
         TableColumn<Client, Integer> idColumn = new TableColumn<>("ID в таблице");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -76,7 +77,7 @@ public class MainPageController {
 
     @FXML
     protected void onShowPaymentsButtonClick() {
-        ObservableList<Payment> clients = FXCollections.observableList(DataExtractor.getPayments());
+        ObservableList<Payment> clients = FXCollections.observableList(DataHandler.getPayments());
 
         TableColumn<Payment, Integer> idColumn = new TableColumn<>("ID в таблице");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -97,7 +98,7 @@ public class MainPageController {
 
     @FXML
     protected void onShowRentAgreementsButtonClick() {
-        ObservableList<RentAgreement> clients = FXCollections.observableList(DataExtractor.getRentAgreements());
+        ObservableList<RentAgreement> clients = FXCollections.observableList(DataHandler.getRentAgreements());
 
         TableColumn<RentAgreement, Integer> idColumn = new TableColumn<>("ID в таблице");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -121,5 +122,40 @@ public class MainPageController {
                 clientIdColumn, machineIdColumn);
         mainPane.getChildren().clear();
         mainPane.getChildren().add(table);
+    }
+
+    @FXML
+    protected void onAddBrandButtonClick() {
+        mainPane.getChildren().clear();
+        Label nameLabel = new Label("Наименование бренда:");
+        TextField nameField = new TextField();
+        Button addButton = new Button("Добавить");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                DataHandler.addBrand(new Brand(nameField.getText()));
+            }
+        });
+        mainPane.getChildren().addAll(nameLabel, nameField, addButton);
+    }
+
+    @FXML
+    protected void onAddMachineButtonClick() {
+
+    }
+
+    @FXML
+    protected void onAddClientButtonClick() {
+
+    }
+
+    @FXML
+    protected void onAddRentAgreementButtonClick() {
+
+    }
+
+    @FXML
+    protected void onAddPaymentButtonClick() {
+
     }
 }

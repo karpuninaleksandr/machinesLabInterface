@@ -9,6 +9,11 @@ public class Brand implements Entity {
         this.name = name;
     }
 
+    public Brand(String name) {
+        this.name = name;
+        this.id = 0;
+    }
+
     public int getId() {
         return this.id;
     }

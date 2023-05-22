@@ -7,7 +7,8 @@ public enum SqlQueries {
     GetAllMachines(2, "SELECT * FROM MACHINE"),
     GetAllClients(3, "SELECT * FROM CLIENT"),
     GetAllPayments(4, "SELECT * FROM PAYMENT"),
-    GetAllRentAgreements(5, "SELECT * FROM RENTAGREEMENT");
+    GetAllRentAgreements(5, "SELECT * FROM RENTAGREEMENT"),
+    AddBrand(6, "INSERT INTO BRAND (NAME) VALUES (?)");
 
     private final int id;
     private final String query;

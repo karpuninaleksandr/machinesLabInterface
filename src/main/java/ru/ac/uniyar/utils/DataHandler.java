@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.stream.Collectors;
 
 
-public class DataExtractor {
+public class DataHandler {
     private static Connection connection;
 
     public static void init() {
@@ -40,7 +40,7 @@ public class DataExtractor {
         return getData(5).stream().map(it -> (RentAgreement) it).collect(Collectors.toList());
     }
 
-    protected static List<Entity> getData(int queryId) {
+    private static List<Entity> getData(int queryId) {
         ArrayList<Entity> result = new ArrayList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
@@ -85,5 +85,23 @@ public class DataExtractor {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static void addBrand(Brand brand) {
+        addEntity(6, brand);
+    }
+
+    private static void addEntity(int queryId, Entity entity) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
+            switch (queryId) {
+                case 6: {
+                    ps.setString(1, ((Brand) entity).getName());
+                    ps.executeQuery();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
