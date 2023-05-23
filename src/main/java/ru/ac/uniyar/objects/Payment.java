@@ -15,6 +15,13 @@ public class Payment implements Entity {
         this.moneyPaid = moneyPaid;
     }
 
+    public Payment(Date date, int rentAgreementId, int moneyPaid) {
+        this.id = 0;
+        this.date = date;
+        this.rentAgreementId = rentAgreementId;
+        this.moneyPaid = moneyPaid;
+    }
+
     public int getId() {
         return this.id;
     }

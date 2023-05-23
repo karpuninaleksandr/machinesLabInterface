@@ -222,7 +222,7 @@ public class MainPageController {
         Label machineLabel = new Label("Станок:");
         ComboBox<String> machineBox = new ComboBox<>(machinesObservable);
         machineBox.setValue(machinesObservable.get(0));
-        Button addButton = new Button();
+        Button addButton = new Button("Добавить");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -243,6 +243,27 @@ public class MainPageController {
 
     @FXML
     protected void onAddPaymentButtonClick() {
-
+        mainPane.getChildren().clear();
+        List<RentAgreement> rentAgreements = DataHandler.getRentAgreements();
+        ObservableList<Integer> rentAgreementsObservable = FXCollections.observableList(rentAgreements.stream()
+                .map(RentAgreement::getId).collect(Collectors.toList()));
+        Label dateLabel = new Label("Дата платежа:");
+        DatePicker datePicker = new DatePicker();
+        Label moneyPaidLabel = new Label("Количество внесенных средств:");
+        TextField moneyPaidField = new TextField();
+        Label rentAgreementLabel = new Label("Номер договора аренды (ID):");
+        ComboBox<Integer> rentAgreementBox = new ComboBox<>(rentAgreementsObservable);
+        Button addButton = new Button("Добавить");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                DataHandler.addPayment(new Payment(Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        Integer.parseInt(moneyPaidField.getText()), rentAgreementBox.getValue()));
+                onShowPaymentsButtonClick();
+            }
+        });
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(dateLabel, datePicker, moneyPaidLabel, moneyPaidField, rentAgreementLabel, rentAgreementBox, addButton);
+        mainPane.getChildren().add(inputBox);
     }
 }

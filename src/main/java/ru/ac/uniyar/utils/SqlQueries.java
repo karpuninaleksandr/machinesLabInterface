@@ -12,7 +12,8 @@ public enum SqlQueries {
     AddMachine(7, "INSERT INTO MACHINE (NAME, RENTPRICE, BRANDID) VALUES (?, ?, ?)"),
     AddClient(8, "INSERT INTO CLIENT (NAME, ADDRESS, PHONENUMBER) VALUES (?, ?, ?)"),
     AddRentAgreement(9, "INSERT INTO RENTAGREEMENT (PAYMENTTYPE, STARTDATE, EXPIREDATE, RATE, CLIENTID, MACHINEID)" +
-            " VALUES (?, ?, ?, ?, ?, ?)");
+            " VALUES (?, ?, ?, ?, ?, ?)"),
+    AddPayment(10, "INSERT INTO PAYMENT (DATE, RENTAGREEMENTID, MONEYPAID) VALUES (?, ?, ?)");
 
     private final int id;
     private final String query;

@@ -103,6 +103,10 @@ public class DataHandler {
         addEntity(9, rentAgreement);
     }
 
+    public static void addPayment(Payment payment) {
+        addEntity(10, payment);
+    }
+
     private static void addEntity(int queryId, Entity entity) {
         try {
             PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
@@ -130,6 +134,11 @@ public class DataHandler {
                     ps.setDouble(4, ((RentAgreement) entity).getRate());
                     ps.setInt(5, ((RentAgreement) entity).getClientId());
                     ps.setInt(6, ((RentAgreement) entity).getMachineId());
+                }
+                case 10: {
+                    ps.setDate(1, (Date) ((Payment) entity).getDate());
+                    ps.setInt(2, ((Payment) entity).getRentAgreementId());
+                    ps.setInt(3, ((Payment) entity).getMoneyPaid());
                 }
             }
             ps.executeQuery();
