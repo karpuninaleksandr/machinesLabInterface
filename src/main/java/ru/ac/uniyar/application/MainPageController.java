@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import ru.ac.uniyar.utils.DataHandler;
 import ru.ac.uniyar.objects.*;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
@@ -137,15 +138,20 @@ public class MainPageController {
         Label nameLabel = new Label("Наименование бренда:");
         TextField nameField = new TextField();
         Button addButton = new Button("Добавить");
+        Label errorLabel = new Label();
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DataHandler.addBrand(new Brand(nameField.getText()));
-                onShowBrandsButtonClick();
+                if (nameField.getText().isBlank()) {
+                    errorLabel.setText("Заполните все поля перед добавлением");
+                } else {
+                    DataHandler.addBrand(new Brand(nameField.getText()));
+                    onShowBrandsButtonClick();
+                }
             }
         });
         VBox inputBox = new VBox();
-        inputBox.getChildren().addAll(nameLabel, nameField, addButton);
+        inputBox.getChildren().addAll(nameLabel, nameField, addButton, errorLabel);
         mainPane.getChildren().addAll(inputBox);
     }
 
@@ -161,18 +167,28 @@ public class MainPageController {
         TextField rentPriceField = new TextField();
         Label brandIdLabel = new Label("ID бренда:");
         ComboBox<String> brandBox = new ComboBox<>(brandsObservable);
-        brandBox.setValue(brandsObservable.get(0));
+        brandBox.setValue(brandsObservable.stream().findFirst().orElse(""));
         Button addButton = new Button("Добавить");
+        Label errorLabel = new Label();
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DataHandler.addMachine(new Machine(nameField.getText(), Integer.parseInt(rentPriceField.getText()),
-                        brands.stream().filter(it -> it.getName().equals(brandBox.getValue())).toList().get(0).getId()));
-                onShowMachinesButtonClick();
+                if (nameField.getText().isBlank() || rentPriceField.getText().isBlank() || brandBox.getValue().isBlank()) {
+                    errorLabel.setText("Заполните все поля перед добавлением");
+                } else {
+                    if (!rentPriceField.getText().matches("\\d*")) {
+                        errorLabel.setText("Значение поля \"Стоимость аренды:\" должно быть целочисленным");
+                    } else {
+                        DataHandler.addMachine(new Machine(nameField.getText(), Integer.parseInt(rentPriceField.getText()),
+                                brands.stream().filter(it -> it.getName().equals(brandBox.getValue())).toList().get(0).getId()));
+                        onShowMachinesButtonClick();
+                    }
+                }
             }
         });
         VBox inputBox = new VBox();
-        inputBox.getChildren().addAll(nameLabel, nameField, rentPriceLabel, rentPriceField, brandIdLabel, brandBox, addButton);
+        inputBox.getChildren().addAll(nameLabel, nameField, rentPriceLabel, rentPriceField, brandIdLabel, brandBox,
+                addButton, errorLabel);
         mainPane.getChildren().addAll(inputBox);
     }
 
@@ -186,12 +202,21 @@ public class MainPageController {
         Label phoneNumberLabel = new Label("Телефон:");
         TextField phoneNumberField = new TextField();
         Button addButton = new Button("Добавить");
+        Label errorLabel = new Label();
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DataHandler.addClient(new Client(nameField.getText(), addressField.getText(),
-                        phoneNumberField.getText()));
-                onShowClientsButtonClick();
+                if (nameField.getText().isBlank() || addressField.getText().isBlank() || phoneNumberField.getText().isBlank()) {
+                    errorLabel.setText("Заполните все поля перед добавлением");
+                } else {
+                    if (!phoneNumberField.getText().matches("\\d*") || phoneNumberField.getText().length() > 11) {
+                        errorLabel.setText("Проверьте правильность заполнения поля \"Телефон:\"");
+                    } else {
+                        DataHandler.addClient(new Client(nameField.getText(), addressField.getText(),
+                                phoneNumberField.getText()));
+                        onShowClientsButtonClick();
+                    }
+                }
             }
         });
         VBox inputBox = new VBox();
@@ -214,33 +239,50 @@ public class MainPageController {
         paymentTypeBox.setValue("Ежемесячная");
         Label startDateLabel = new Label("Дата начала договора:");
         DatePicker startDatePicker = new DatePicker();
-        Label expireDateLabel = new Label("Дата окончания договора");
+        startDatePicker.setValue(LocalDate.now());
+        Label expireDateLabel = new Label("Дата окончания договора:");
         DatePicker expireDatePicker = new DatePicker();
+        expireDatePicker.setValue(LocalDate.now());
         Label rateLabel = new Label("Тариф:");
         TextField rateField = new TextField();
         Label clientLabel = new Label("Клиент:");
         ComboBox<String> clientBox = new ComboBox<>(clientsObservable);
-        clientBox.setValue(clientsObservable.get(0));
+        clientBox.setValue(clientsObservable.stream().findFirst().orElse(""));
         Label machineLabel = new Label("Станок:");
         ComboBox<String> machineBox = new ComboBox<>(machinesObservable);
-        machineBox.setValue(machinesObservable.get(0));
+        machineBox.setValue(machinesObservable.stream().findFirst().orElse(""));
         Button addButton = new Button("Добавить");
+        Label errorLabel = new Label();
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DataHandler.addRentAgreement(new RentAgreement(
-                        paymentTypeBox.getValue().equals("Ежемесячная") ? "M" : "F",
-                        Date.from(startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        Date.from(expireDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        Double.parseDouble(rateField.getText()),
-                        clients.stream().filter(it -> it.getName().equals(clientBox.getValue())).toList().get(0).getId(),
-                        machines.stream().filter(it -> it.getName().equals(machineBox.getValue())).toList().get(0).getId()));
-                onShowRentAgreementsButtonClick();
+                if (paymentTypeBox.getValue().isBlank() || rateField.getText().isBlank() || clientBox.getValue().isBlank()
+                        || machineBox.getValue().isBlank()) {
+                    errorLabel.setText("Заполните все поля перед добавлением");
+                } else {
+                    if (startDatePicker.getValue().isAfter(expireDatePicker.getValue())) {
+                        errorLabel.setText("Проверьте правильность заполнения полей \"Дата начала договора:\" и " +
+                                "\"Дата окончания договора:\"");
+                    } else {
+                        if (!rateField.getText().matches("\\d+\\.\\d+") && !rateField.getText().matches("\\d*")) {
+                            errorLabel.setText("Поле \"Тариф:\" должно содержать число");
+                        } else {
+                            DataHandler.addRentAgreement(new RentAgreement(
+                                    paymentTypeBox.getValue().equals("Ежемесячная") ? "M" : "F",
+                                    Date.from(startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                    Date.from(expireDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                    Double.parseDouble(rateField.getText()),
+                                    clients.stream().filter(it -> it.getName().equals(clientBox.getValue())).toList().get(0).getId(),
+                                    machines.stream().filter(it -> it.getName().equals(machineBox.getValue())).toList().get(0).getId()));
+                            onShowRentAgreementsButtonClick();
+                        }
+                    }
+                }
             }
         });
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(paymentTypeLabel, paymentTypeBox, startDateLabel, startDatePicker, expireDateLabel,
-                expireDatePicker, rateLabel, rateField, clientLabel, clientBox, machineLabel, machineBox, addButton);
+                expireDatePicker, rateLabel, rateField, clientLabel, clientBox, machineLabel, machineBox, addButton, errorLabel);
         mainPane.getChildren().add(inputBox);
     }
 
@@ -258,12 +300,21 @@ public class MainPageController {
         ComboBox<Integer> rentAgreementBox = new ComboBox<>(rentAgreementsObservable);
         rentAgreementBox.setValue(rentAgreementsObservable.get(0));
         Button addButton = new Button("Добавить");
+        Label errorLabel = new Label();
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DataHandler.addPayment(new Payment(Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        rentAgreementBox.getValue(), Integer.parseInt(moneyPaidField.getText())));
-                onShowPaymentsButtonClick();
+                if (moneyPaidField.getText().isBlank() || rentAgreementBox.getValue() == null) {
+                    errorLabel.setText("Заполните все поля перед добавлением");
+                } else {
+                    if (!moneyPaidField.getText().matches("\\d*")) {
+                        errorLabel.setText("Значение поля \"Количество внесенных средств:\" должно быьб целочисленным");
+                    } else {
+                        DataHandler.addPayment(new Payment(Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                rentAgreementBox.getValue(), Integer.parseInt(moneyPaidField.getText())));
+                        onShowPaymentsButtonClick();
+                    }
+                }
             }
         });
         VBox inputBox = new VBox();

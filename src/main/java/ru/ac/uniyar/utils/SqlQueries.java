@@ -3,11 +3,11 @@ package ru.ac.uniyar.utils;
 import java.util.Arrays;
 
 public enum SqlQueries {
-    GetAllBrands(1, "SELECT * FROM BRAND"),
-    GetAllMachines(2, "SELECT * FROM MACHINE"),
-    GetAllClients(3, "SELECT * FROM CLIENT"),
-    GetAllPayments(4, "SELECT * FROM PAYMENT"),
-    GetAllRentAgreements(5, "SELECT * FROM RENTAGREEMENT"),
+    GetAllBrands(1, "SELECT * FROM BRAND ORDER BY ID"),
+    GetAllMachines(2, "SELECT * FROM MACHINE ORDER BY ID"),
+    GetAllClients(3, "SELECT * FROM CLIENT ORDER BY ID"),
+    GetAllPayments(4, "SELECT * FROM PAYMENT ORDER BY ID"),
+    GetAllRentAgreements(5, "SELECT * FROM RENTAGREEMENT ORDER BY ID"),
     AddBrand(6, "INSERT INTO BRAND (NAME) VALUES (?)"),
     AddMachine(7, "INSERT INTO MACHINE (NAME, RENTPRICE, BRANDID) VALUES (?, ?, ?)"),
     AddClient(8, "INSERT INTO CLIENT (NAME, ADDRESS, PHONENUMBER) VALUES (?, ?, ?)"),
