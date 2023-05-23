@@ -129,16 +129,18 @@ public class DataHandler {
                 }
                 case 9: {
                     ps.setString(1, ((RentAgreement) entity).getPaymentType());
-                    ps.setDate(2, (Date) ((RentAgreement) entity).getStartDate());
-                    ps.setDate(3, (Date) ((RentAgreement) entity).getExpireDate());
+                    ps.setDate(2, new Date(((RentAgreement) entity).getStartDate().getTime()));
+                    ps.setDate(3, new Date(((RentAgreement) entity).getExpireDate().getTime()));
                     ps.setDouble(4, ((RentAgreement) entity).getRate());
                     ps.setInt(5, ((RentAgreement) entity).getClientId());
                     ps.setInt(6, ((RentAgreement) entity).getMachineId());
+                    break;
                 }
                 case 10: {
-                    ps.setDate(1, (Date) ((Payment) entity).getDate());
+                    ps.setDate(1, new Date(((Payment) entity).getDate().getTime()));
                     ps.setInt(2, ((Payment) entity).getRentAgreementId());
                     ps.setInt(3, ((Payment) entity).getMoneyPaid());
+                    break;
                 }
             }
             ps.executeQuery();

@@ -13,6 +13,7 @@ import ru.ac.uniyar.utils.DataHandler;
 import ru.ac.uniyar.objects.*;
 
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,7 +91,7 @@ public class MainPageController {
         TableColumn<Payment, String> dateColumn = new TableColumn<>("Дата платежа");
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         TableColumn<Payment, String> rentAgreementIdColumn = new TableColumn<>("ID Договора");
-        rentAgreementIdColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        rentAgreementIdColumn.setCellValueFactory(new PropertyValueFactory<>("rentAgreementId"));
         TableColumn<Payment, String> moneyPaidColumn = new TableColumn<>("Размер платежа");
         moneyPaidColumn.setCellValueFactory(new PropertyValueFactory<>("moneyPaid"));
 
@@ -209,7 +210,8 @@ public class MainPageController {
                 .collect(Collectors.toList()));
         mainPane.getChildren().clear();
         Label paymentTypeLabel = new Label("Вид оплаты:");
-        TextField paymentTypeField = new TextField();
+        ComboBox<String> paymentTypeBox = new ComboBox<>(FXCollections.observableList(Arrays.asList("Ежемесячная", "Оплата на перед")));
+        paymentTypeBox.setValue("Ежемесячная");
         Label startDateLabel = new Label("Дата начала договора:");
         DatePicker startDatePicker = new DatePicker();
         Label expireDateLabel = new Label("Дата окончания договора");
@@ -226,7 +228,8 @@ public class MainPageController {
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DataHandler.addRentAgreement(new RentAgreement(paymentTypeField.getText(),
+                DataHandler.addRentAgreement(new RentAgreement(
+                        paymentTypeBox.getValue().equals("Ежемесячная") ? "M" : "F",
                         Date.from(startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                         Date.from(expireDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                         Double.parseDouble(rateField.getText()),
@@ -236,7 +239,7 @@ public class MainPageController {
             }
         });
         VBox inputBox = new VBox();
-        inputBox.getChildren().addAll(paymentTypeLabel, paymentTypeField, startDateLabel, startDatePicker, expireDateLabel,
+        inputBox.getChildren().addAll(paymentTypeLabel, paymentTypeBox, startDateLabel, startDatePicker, expireDateLabel,
                 expireDatePicker, rateLabel, rateField, clientLabel, clientBox, machineLabel, machineBox, addButton);
         mainPane.getChildren().add(inputBox);
     }
@@ -253,12 +256,13 @@ public class MainPageController {
         TextField moneyPaidField = new TextField();
         Label rentAgreementLabel = new Label("Номер договора аренды (ID):");
         ComboBox<Integer> rentAgreementBox = new ComboBox<>(rentAgreementsObservable);
+        rentAgreementBox.setValue(rentAgreementsObservable.get(0));
         Button addButton = new Button("Добавить");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 DataHandler.addPayment(new Payment(Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        Integer.parseInt(moneyPaidField.getText()), rentAgreementBox.getValue()));
+                        rentAgreementBox.getValue(), Integer.parseInt(moneyPaidField.getText())));
                 onShowPaymentsButtonClick();
             }
         });
