@@ -21,6 +21,16 @@ public class RentAgreement implements Entity {
         this.machineId = machineId;
     }
 
+    public RentAgreement(String paymentType, Date startDate, Date expireDate, double rate, int clientId, int machineId) {
+        this.id = 0;
+        this.paymentType = paymentType;
+        this.startDate = startDate;
+        this.expireDate = expireDate;
+        this.rate = rate;
+        this.clientId = clientId;
+        this.machineId = machineId;
+    }
+
     public int getId() {
         return id;
     }

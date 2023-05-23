@@ -8,8 +8,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import ru.ac.uniyar.utils.DataHandler;
 import ru.ac.uniyar.objects.*;
+
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class MainPageController {
@@ -100,19 +106,19 @@ public class MainPageController {
     protected void onShowRentAgreementsButtonClick() {
         ObservableList<RentAgreement> clients = FXCollections.observableList(DataHandler.getRentAgreements());
 
-        TableColumn<RentAgreement, Integer> idColumn = new TableColumn<>("ID в таблице");
+        TableColumn<RentAgreement, Integer> idColumn = new TableColumn<>("ID в таблице:");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<RentAgreement, String> paymentTypeColumn = new TableColumn<>("Тип платежа");
+        TableColumn<RentAgreement, String> paymentTypeColumn = new TableColumn<>("Тип платежей:");
         paymentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("paymentType"));
-        TableColumn<RentAgreement, String> startDateColumn = new TableColumn<>("Дата начала договора");
+        TableColumn<RentAgreement, String> startDateColumn = new TableColumn<>("Дата начала договора:");
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        TableColumn<RentAgreement, String> expireDateColumn = new TableColumn<>("Дата окончания договора");
+        TableColumn<RentAgreement, String> expireDateColumn = new TableColumn<>("Дата окончания договора:");
         expireDateColumn.setCellValueFactory(new PropertyValueFactory<>("expireDate"));
-        TableColumn<RentAgreement, String> rateColumn = new TableColumn<>("Тариф");
+        TableColumn<RentAgreement, String> rateColumn = new TableColumn<>("Тариф:");
         rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        TableColumn<RentAgreement, String> clientIdColumn = new TableColumn<>("ID клиента в таблице");
+        TableColumn<RentAgreement, String> clientIdColumn = new TableColumn<>("ID клиента в таблице:");
         clientIdColumn.setCellValueFactory(new PropertyValueFactory<>("clientId"));
-        TableColumn<RentAgreement, String> machineIdColumn = new TableColumn<>("ID станка в таблице");
+        TableColumn<RentAgreement, String> machineIdColumn = new TableColumn<>("ID станка в таблице:");
         machineIdColumn.setCellValueFactory(new PropertyValueFactory<>("machineId"));
 
         TableView<RentAgreement> table = new TableView<>(clients);
@@ -134,30 +140,39 @@ public class MainPageController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 DataHandler.addBrand(new Brand(nameField.getText()));
+                onShowBrandsButtonClick();
             }
         });
-        mainPane.getChildren().addAll(nameLabel, nameField, addButton);
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(nameLabel, nameField, addButton);
+        mainPane.getChildren().addAll(inputBox);
     }
 
     @FXML
     protected void onAddMachineButtonClick() {
+        List<Brand> brands = DataHandler.getBrands();
+        ObservableList<String> brandsObservable = FXCollections.observableList(brands.stream().map(Brand::getName)
+                .collect(Collectors.toList()));
         mainPane.getChildren().clear();
         Label nameLabel = new Label("Наименование станка:");
         TextField nameField = new TextField();
         Label rentPriceLabel = new Label("Стоимость аренды:");
         TextField rentPriceField = new TextField();
         Label brandIdLabel = new Label("ID бренда:");
-        TextField brandIdField = new TextField();
+        ComboBox<String> brandBox = new ComboBox<>(brandsObservable);
+        brandBox.setValue(brandsObservable.get(0));
         Button addButton = new Button("Добавить");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 DataHandler.addMachine(new Machine(nameField.getText(), Integer.parseInt(rentPriceField.getText()),
-                        Integer.parseInt(brandIdField.getText())));
+                        brands.stream().filter(it -> it.getName().equals(brandBox.getValue())).toList().get(0).getId()));
+                onShowMachinesButtonClick();
             }
         });
-        mainPane.getChildren().addAll(nameLabel, nameField, rentPriceLabel, rentPriceField, brandIdLabel, brandIdField,
-                addButton);
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(nameLabel, nameField, rentPriceLabel, rentPriceField, brandIdLabel, brandBox, addButton);
+        mainPane.getChildren().addAll(inputBox);
     }
 
     @FXML
@@ -175,15 +190,55 @@ public class MainPageController {
             public void handle(ActionEvent actionEvent) {
                 DataHandler.addClient(new Client(nameField.getText(), addressField.getText(),
                         phoneNumberField.getText()));
+                onShowClientsButtonClick();
             }
         });
-        mainPane.getChildren().addAll(nameLabel, nameField, addressLabel, addressField, phoneNumberLabel, phoneNumberField,
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(nameLabel, nameField, addressLabel, addressField, phoneNumberLabel, phoneNumberField,
                 addButton);
+        mainPane.getChildren().addAll(inputBox);
     }
 
     @FXML
     protected void onAddRentAgreementButtonClick() {
-
+        List<Client> clients = DataHandler.getClients();
+        List<Machine> machines = DataHandler.getMachines();
+        ObservableList<String> clientsObservable = FXCollections.observableList(clients.stream().map(Client::getName)
+                .collect(Collectors.toList()));
+        ObservableList<String> machinesObservable = FXCollections.observableList(machines.stream().map(Machine::getName)
+                .collect(Collectors.toList()));
+        mainPane.getChildren().clear();
+        Label paymentTypeLabel = new Label("Вид оплаты:");
+        TextField paymentTypeField = new TextField();
+        Label startDateLabel = new Label("Дата начала договора:");
+        DatePicker startDatePicker = new DatePicker();
+        Label expireDateLabel = new Label("Дата окончания договора");
+        DatePicker expireDatePicker = new DatePicker();
+        Label rateLabel = new Label("Тариф:");
+        TextField rateField = new TextField();
+        Label clientLabel = new Label("Клиент:");
+        ComboBox<String> clientBox = new ComboBox<>(clientsObservable);
+        clientBox.setValue(clientsObservable.get(0));
+        Label machineLabel = new Label("Станок:");
+        ComboBox<String> machineBox = new ComboBox<>(machinesObservable);
+        machineBox.setValue(machinesObservable.get(0));
+        Button addButton = new Button();
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                DataHandler.addRentAgreement(new RentAgreement(paymentTypeField.getText(),
+                        Date.from(startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        Date.from(expireDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        Double.parseDouble(rateField.getText()),
+                        clients.stream().filter(it -> it.getName().equals(clientBox.getValue())).toList().get(0).getId(),
+                        machines.stream().filter(it -> it.getName().equals(machineBox.getValue())).toList().get(0).getId()));
+                onShowRentAgreementsButtonClick();
+            }
+        });
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(paymentTypeLabel, paymentTypeField, startDateLabel, startDatePicker, expireDateLabel,
+                expireDatePicker, rateLabel, rateField, clientLabel, clientBox, machineLabel, machineBox, addButton);
+        mainPane.getChildren().add(inputBox);
     }
 
     @FXML

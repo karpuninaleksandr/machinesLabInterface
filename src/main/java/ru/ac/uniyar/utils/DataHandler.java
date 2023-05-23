@@ -99,6 +99,10 @@ public class DataHandler {
         addEntity(8, client);
     }
 
+    public static void addRentAgreement(RentAgreement rentAgreement) {
+        addEntity(9, rentAgreement);
+    }
+
     private static void addEntity(int queryId, Entity entity) {
         try {
             PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
@@ -109,15 +113,23 @@ public class DataHandler {
                 }
                 case 7: {
                     ps.setString(1, ((Machine) entity).getName());
-                    ps.setInt(2, ((Machine) entity).getBrandId());
+                    ps.setInt(2, ((Machine) entity).getRentPrice());
                     ps.setInt(3, ((Machine) entity).getBrandId());
                     break;
                 }
                 case 8: {
                     ps.setString(1, ((Client) entity).getName());
-                    ps.setString(1, ((Client) entity).getAddress());
-                    ps.setString(1, ((Client) entity).getPhoneNumber());
+                    ps.setString(2, ((Client) entity).getAddress());
+                    ps.setString(3, ((Client) entity).getPhoneNumber());
                     break;
+                }
+                case 9: {
+                    ps.setString(1, ((RentAgreement) entity).getPaymentType());
+                    ps.setDate(2, (Date) ((RentAgreement) entity).getStartDate());
+                    ps.setDate(3, (Date) ((RentAgreement) entity).getExpireDate());
+                    ps.setDouble(4, ((RentAgreement) entity).getRate());
+                    ps.setInt(5, ((RentAgreement) entity).getClientId());
+                    ps.setInt(6, ((RentAgreement) entity).getMachineId());
                 }
             }
             ps.executeQuery();
