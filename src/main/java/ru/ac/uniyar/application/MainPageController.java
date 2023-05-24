@@ -374,16 +374,76 @@ public class MainPageController {
 
     @FXML
     protected void onDeleteClient() {
-
+        ObservableList<Integer> clientsObservable = FXCollections.observableList(DataHandler.getClients().stream()
+                .map(Client::getId).collect(Collectors.toList()));
+        mainPane.getChildren().clear();
+        Label clientIdLabel = new Label("ID клиента:");
+        ComboBox<Integer> clientBox = new ComboBox<>(clientsObservable);
+        clientBox.setValue(clientsObservable.stream().findFirst().orElse(null));
+        Button deleteButton = new Button("Удалить");
+        Label errorLabel = new Label();
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (DataHandler.deleteClient(clientBox.getValue())) {
+                    onShowClientsButtonClick();
+                } else {
+                    errorLabel.setText("Клиент с ID = " + clientBox.getValue() + " не может быть удален");
+                }
+            }
+        });
+        VBox deleteBox = new VBox();
+        deleteBox.getChildren().addAll(clientIdLabel, clientBox, deleteButton, errorLabel);
+        mainPane.getChildren().add(deleteBox);
     }
 
     @FXML
     protected void onDeleteRentAgreement() {
-
+        ObservableList<Integer> rentAgreementsObservable = FXCollections.observableList(DataHandler.getRentAgreements()
+                .stream().map(RentAgreement::getId).collect(Collectors.toList()));
+        mainPane.getChildren().clear();
+        Label rentAgreementIdLabel = new Label("ID договора:");
+        ComboBox<Integer> rentAgreementBox = new ComboBox<>(rentAgreementsObservable);
+        rentAgreementBox.setValue(rentAgreementsObservable.stream().findFirst().orElse(null));
+        Button deleteButton = new Button("Удалить");
+        Label errorLabel = new Label();
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (DataHandler.deleteRentAgreement(rentAgreementBox.getValue())) {
+                    onShowRentAgreementsButtonClick();
+                } else {
+                    errorLabel.setText("Договор с ID = " + rentAgreementBox.getValue() + " не может быть удален");
+                }
+            }
+        });
+        VBox deleteBox = new VBox();
+        deleteBox.getChildren().addAll(rentAgreementIdLabel, rentAgreementBox, deleteButton, errorLabel);
+        mainPane.getChildren().add(deleteBox);
     }
 
     @FXML
     protected void onDeletePayment() {
-
+        ObservableList<Integer> paymentsObservable = FXCollections.observableList(DataHandler.getPayments().stream()
+                .map(Payment::getId).collect(Collectors.toList()));
+        mainPane.getChildren().clear();
+        Label paymentIdLabel = new Label("ID платежа:");
+        ComboBox<Integer> paymentBox = new ComboBox<>(paymentsObservable);
+        paymentBox.setValue(paymentsObservable.stream().findFirst().orElse(null));
+        Button deleteButton = new Button("Удалить");
+        Label errorLabel = new Label();
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (DataHandler.deletePayment(paymentBox.getValue())) {
+                    onShowPaymentsButtonClick();
+                } else {
+                    errorLabel.setText("Платеж с ID = " + paymentBox.getValue() + " не может быть удален");
+                }
+            }
+        });
+        VBox deleteBox = new VBox();
+        deleteBox.getChildren().addAll(paymentIdLabel, paymentBox, deleteButton, errorLabel);
+        mainPane.getChildren().add(deleteBox);
     }
 }
