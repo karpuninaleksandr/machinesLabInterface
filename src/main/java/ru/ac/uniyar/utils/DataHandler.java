@@ -46,39 +46,34 @@ public class DataHandler {
             PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
             ResultSet rs = ps.executeQuery();
             switch (queryId) {
-                case 1: {
+                case 1 -> {
                     while (rs.next()) {
                         result.add(new Brand(rs.getInt(1), rs.getString(2)));
                     }
-                    break;
                 }
-                case 2: {
+                case 2 -> {
                     while (rs.next()) {
                         result.add(new Machine(rs.getInt(1), rs.getString(4), rs.getInt(2),
                                 rs.getInt(3)));
                     }
-                    break;
                 }
-                case 3: {
+                case 3 -> {
                     while (rs.next()) {
                         result.add(new Client(rs.getInt(1), rs.getString(2), rs.getString(3),
                                 rs.getString(4)));
                     }
-                    break;
                 }
-                case 4: {
+                case 4 -> {
                     while (rs.next()) {
                         result.add(new Payment(rs.getInt(1), rs.getDate(2), rs.getInt(3),
                                 rs.getInt(4)));
                     }
-                    break;
                 }
-                case 5: {
+                case 5 -> {
                     while (rs.next()) {
                         result.add(new RentAgreement(rs.getInt(1), rs.getString(2), rs.getDate(3),
                                 rs.getDate(4), rs.getDouble(5), rs.getInt(6), rs.getInt(7)));
                     }
-                    break;
                 }
             }
         } catch (SQLException e) {
@@ -111,36 +106,31 @@ public class DataHandler {
         try {
             PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
             switch (queryId) {
-                case 6: {
+                case 6 -> {
                     ps.setString(1, ((Brand) entity).getName());
-                    break;
                 }
-                case 7: {
+                case 7 -> {
                     ps.setString(1, ((Machine) entity).getName());
                     ps.setInt(2, ((Machine) entity).getRentPrice());
                     ps.setInt(3, ((Machine) entity).getBrandId());
-                    break;
                 }
-                case 8: {
+                case 8 -> {
                     ps.setString(1, ((Client) entity).getName());
                     ps.setString(2, ((Client) entity).getAddress());
                     ps.setString(3, ((Client) entity).getPhoneNumber());
-                    break;
                 }
-                case 9: {
+                case 9 -> {
                     ps.setString(1, ((RentAgreement) entity).getPaymentType());
                     ps.setDate(2, new Date(((RentAgreement) entity).getStartDate().getTime()));
                     ps.setDate(3, new Date(((RentAgreement) entity).getExpireDate().getTime()));
                     ps.setDouble(4, ((RentAgreement) entity).getRate());
                     ps.setInt(5, ((RentAgreement) entity).getClientId());
                     ps.setInt(6, ((RentAgreement) entity).getMachineId());
-                    break;
                 }
-                case 10: {
+                case 10 -> {
                     ps.setDate(1, new Date(((Payment) entity).getDate().getTime()));
                     ps.setInt(2, ((Payment) entity).getRentAgreementId());
                     ps.setInt(3, ((Payment) entity).getMoneyPaid());
-                    break;
                 }
             }
             ps.executeQuery();
@@ -151,6 +141,22 @@ public class DataHandler {
 
     public static boolean deleteBrand(int id) {
         return deleteEntity(id, 11);
+    }
+
+    public static boolean deleteMachine(int id) {
+        return deleteEntity(id, 12);
+    }
+
+    public static boolean deleteClient(int id) {
+        return deleteEntity(id, 13);
+    }
+
+    public static boolean deleteRentAgreement(int id) {
+        return deleteEntity(id, 14);
+    }
+
+    public static boolean deletePayment(int id) {
+        return deleteEntity(id, 15);
     }
 
     private static boolean deleteEntity(int id, int queryId) {

@@ -14,7 +14,11 @@ public enum SqlQueries {
     AddRentAgreement(9, "INSERT INTO RENTAGREEMENT (PAYMENTTYPE, STARTDATE, EXPIREDATE, RATE, CLIENTID, MACHINEID)" +
             " VALUES (?, ?, ?, ?, ?, ?)"),
     AddPayment(10, "INSERT INTO PAYMENT (\"date\", RENTAGREEMENTID, MONEYPAID) VALUES (?, ?, ?)"),
-    DeleteBrand(11, "DELETE FROM BRAND WHERE ID = ?");
+    DeleteBrand(11, "DELETE FROM BRAND WHERE ID = ?"),
+    DeleteMachine(12, "DELETE FROM MACHINE WHERE ID = ?"),
+    DeleteClient(13, "DELETE FROM CLIENT WHERE ID = ?"),
+    DeleteRentAgreement(14, "DELETE FROM RENTAGREEMENT WHERE ID = ?"),
+    DeletePayment(15, "DELETE FROM PAYMENT WHERE ID = ?");
 
     private final int id;
     private final String query;

@@ -324,15 +324,14 @@ public class MainPageController {
 
     @FXML
     protected void onDeleteBrand() {
-        List<Brand> brands = DataHandler.getBrands();
-        ObservableList<Integer> brandsObservable = FXCollections.observableList(brands.stream().map(Brand::getId)
-                .collect(Collectors.toList()));
+        ObservableList<Integer> brandsObservable = FXCollections.observableList(DataHandler.getBrands().stream()
+                .map(Brand::getId).collect(Collectors.toList()));
         mainPane.getChildren().clear();
-        Label brandIdLabel = new Label("ID бренда к удалению:");
-        ComboBox<Integer> brandBox = new ComboBox(brandsObservable);
+        Label brandIdLabel = new Label("ID бренда:");
+        ComboBox<Integer> brandBox = new ComboBox<>(brandsObservable);
         brandBox.setValue(brandsObservable.stream().findFirst().orElse(null));
         Button deleteButton = new Button("Удалить");
-        Label errorLabel = new Label("");
+        Label errorLabel = new Label();
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -346,5 +345,45 @@ public class MainPageController {
         VBox deleteBox = new VBox();
         deleteBox.getChildren().addAll(brandIdLabel, brandBox, deleteButton, errorLabel);
         mainPane.getChildren().add(deleteBox);
+    }
+
+    @FXML
+    protected void onDeleteMachine() {
+        ObservableList<Integer> machinesObservable = FXCollections.observableList(DataHandler.getMachines().stream()
+                .map(Machine::getId).collect(Collectors.toList()));
+        mainPane.getChildren().clear();
+        Label machineIdLabel = new Label("ID станка:");
+        ComboBox<Integer> machineBox = new ComboBox<>(machinesObservable);
+        machineBox.setValue(machinesObservable.stream().findFirst().orElse(null));
+        Button deleteButton = new Button("Удалить");
+        Label errorLabel = new Label();
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (DataHandler.deleteMachine(machineBox.getValue())) {
+                    onShowMachinesButtonClick();
+                } else {
+                    errorLabel.setText("Станок с ID = " + machineBox.getValue() + " не может быть удален");
+                }
+            }
+        });
+        VBox deleteBox = new VBox();
+        deleteBox.getChildren().addAll(machineIdLabel, machineBox, deleteButton, errorLabel);
+        mainPane.getChildren().add(deleteBox);
+    }
+
+    @FXML
+    protected void onDeleteClient() {
+
+    }
+
+    @FXML
+    protected void onDeleteRentAgreement() {
+
+    }
+
+    @FXML
+    protected void onDeletePayment() {
+
     }
 }
