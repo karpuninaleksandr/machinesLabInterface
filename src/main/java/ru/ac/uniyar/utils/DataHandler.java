@@ -148,4 +148,19 @@ public class DataHandler {
             e.printStackTrace();
         }
     }
+
+    public static boolean deleteBrand(int id) {
+        return deleteEntity(id, 11);
+    }
+
+    private static boolean deleteEntity(int id, int queryId) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
+            ps.setInt(1, id);
+            ps.executeQuery();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
 }

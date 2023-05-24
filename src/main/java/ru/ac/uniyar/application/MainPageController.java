@@ -321,4 +321,30 @@ public class MainPageController {
         inputBox.getChildren().addAll(dateLabel, datePicker, moneyPaidLabel, moneyPaidField, rentAgreementLabel, rentAgreementBox, addButton);
         mainPane.getChildren().add(inputBox);
     }
+
+    @FXML
+    protected void onDeleteBrand() {
+        List<Brand> brands = DataHandler.getBrands();
+        ObservableList<Integer> brandsObservable = FXCollections.observableList(brands.stream().map(Brand::getId)
+                .collect(Collectors.toList()));
+        mainPane.getChildren().clear();
+        Label brandIdLabel = new Label("ID бренда к удалению:");
+        ComboBox<Integer> brandBox = new ComboBox(brandsObservable);
+        brandBox.setValue(brandsObservable.stream().findFirst().orElse(null));
+        Button deleteButton = new Button("Удалить");
+        Label errorLabel = new Label("");
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (DataHandler.deleteBrand(brandBox.getValue())) {
+                    onShowBrandsButtonClick();
+                } else {
+                    errorLabel.setText("Бренд с ID = " + brandBox.getValue() + " не может быть удален");
+                }
+            }
+        });
+        VBox deleteBox = new VBox();
+        deleteBox.getChildren().addAll(brandIdLabel, brandBox, deleteButton, errorLabel);
+        mainPane.getChildren().add(deleteBox);
+    }
 }

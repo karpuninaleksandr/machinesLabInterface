@@ -30,7 +30,7 @@
                                 <items>
                                     <MenuItem mnemonicParsing="false" text="Список всех брендов" onAction="#onShowBrandsButtonClick"/>
                                     <MenuItem mnemonicParsing="false" text="Добавление бренда" onAction="#onAddBrandButtonClick"/>
-                                    <MenuItem mnemonicParsing="false" text="Удаление бренда"/>
+                                    <MenuItem mnemonicParsing="false" text="Удаление бренда" onAction="#onDeleteBrand"/>
                                 </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Станки">
