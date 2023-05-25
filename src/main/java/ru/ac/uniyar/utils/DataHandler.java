@@ -202,4 +202,16 @@ public class DataHandler {
         }
         return result;
     }
+
+    public static void editRentAgreementRate(int id, double rate) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(18));
+            ps.setDouble(1, rate);
+            ps.setInt(2, id);
+            ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

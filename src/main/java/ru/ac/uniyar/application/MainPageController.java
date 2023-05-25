@@ -5,9 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.DataFormat;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import ru.ac.uniyar.utils.DataHandler;
@@ -15,7 +15,6 @@ import ru.ac.uniyar.objects.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -521,6 +520,44 @@ public class MainPageController {
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(startDateLabel, startDatePicker, endDateLabel, endDatePicker, findButton,
                 errorLabel);
+        mainPane.getChildren().add(inputBox);
+    }
+
+    @FXML
+    protected void onEditRateButtonClick() {
+        mainPane.getChildren().clear();
+        List<RentAgreement> rentAgreements = DataHandler.getRentAgreements();
+        ObservableList<Integer> rentAgreementIdObservable = FXCollections.observableList(rentAgreements.stream()
+                .map(RentAgreement::getId).collect(Collectors.toList()));
+        Label rentAgreementIdLabel = new Label("ID договора:");
+        ComboBox<Integer> rentAgreementIdBox = new ComboBox<>(rentAgreementIdObservable);
+        rentAgreementIdBox.setValue(rentAgreementIdObservable.stream().findFirst().orElse(null));
+        Label rateLabel = new Label("Новый тариф:");
+        TextField rateField = new TextField();
+        Button editButton = new Button("Изменить");
+        Label errorLabel = new Label();
+        editButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (rentAgreementIdBox.getValue() == null || rateField.getText().isBlank())
+                    errorLabel.setText("Заполните все поля перед изменением");
+                else {
+                    if (!rateField.getText().matches("\\d+\\.\\d+") && !rateField.getText().matches("\\d*"))
+                        errorLabel.setText("Поле \"Новый тариф:\" должно содержать число");
+                    else {
+                        if (rentAgreements.stream().filter(it -> it.getId() == rentAgreementIdBox.getValue()).toList()
+                                .get(0).getRate() == Double.parseDouble(rateField.getText()))
+                            errorLabel.setText("Значение поля \"Новый тариф:\" должно отличаться от текущего тарифа договора");
+                        else {
+                            DataHandler.editRentAgreementRate(rentAgreementIdBox.getValue(), Double.parseDouble(rateField.getText()));
+                            onShowRentAgreementsButtonClick();
+                        }
+                    }
+                }
+            }
+        });
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(rentAgreementIdLabel, rentAgreementIdBox, rateLabel, rateField, editButton, errorLabel);
         mainPane.getChildren().add(inputBox);
     }
 }

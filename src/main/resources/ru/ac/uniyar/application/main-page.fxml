@@ -54,6 +54,7 @@
                                     <MenuItem mnemonicParsing="false" text="Добавление договора" onAction="#onAddRentAgreementButtonClick"/>
                                     <MenuItem mnemonicParsing="false" text="Удаление договора" onAction="#onDeleteRentAgreement"/>
                                     <MenuItem mnemonicParsing="false" text="Найти договоры по дате заключения" onAction="#onShowRentAgreementsBetweenDatesButtonClick"/>
+                                    <MenuItem mnemonicParsing="false" text="Изменить тариф аренды в договоре" onAction="#onEditRateButtonClick"/>
                                 </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Истории платежей">
@@ -77,12 +78,6 @@
                 <padding>
                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
                 </padding>
-                <children>
-<!--                    <Label fx:id="mainText"/>-->
-                    <Button text="Machines" onAction="#onShowMachinesButtonClick"/>
-<!--                    <Button text="Brands" onAction="#onShowBrandsButtonClick"/>-->
-<!--                    <Button text="Clients" onAction="#onShowClientsButtonClick"/>-->
-                </children>
             </AnchorPane>
         </VBox>
     </children>

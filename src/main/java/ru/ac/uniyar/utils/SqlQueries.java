@@ -20,7 +20,8 @@ public enum SqlQueries {
     DeleteRentAgreement(14, "DELETE FROM RENTAGREEMENT WHERE ID = ?"),
     DeletePayment(15, "DELETE FROM PAYMENT WHERE ID = ?"),
     SearchClient(16, "SELECT * FROM CLIENT WHERE NAME LIKE ? AND ADDRESS LIKE ? AND PHONENUMBER LIKE ?"),
-    SearchRentAgreement(17, "SELECT * FROM RENTAGREEMENT WHERE STARTDATE BETWEEN ? AND ?");
+    SearchRentAgreement(17, "SELECT * FROM RENTAGREEMENT WHERE STARTDATE BETWEEN ? AND ?"),
+    EditRentAgreementRate(18, "UPDATE RENTAGREEMENT SET RATE = ? WHERE ID = ?");
 
     private final int id;
     private final String query;
