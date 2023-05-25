@@ -21,7 +21,8 @@ public enum SqlQueries {
     DeletePayment(15, "DELETE FROM PAYMENT WHERE ID = ?"),
     SearchClient(16, "SELECT * FROM CLIENT WHERE NAME LIKE ? AND ADDRESS LIKE ? AND PHONENUMBER LIKE ?"),
     SearchRentAgreement(17, "SELECT * FROM RENTAGREEMENT WHERE STARTDATE BETWEEN ? AND ?"),
-    EditRentAgreementRate(18, "UPDATE RENTAGREEMENT SET RATE = ? WHERE ID = ?");
+    EditRentAgreementRate(18, "UPDATE RENTAGREEMENT SET RATE = ? WHERE ID = ?"),
+    EditRentAgreementExpireDate(19, "UPDATE RENTAGREEMENT SET EXPIREDATE = ? WHERE ID = ?");
 
     private final int id;
     private final String query;

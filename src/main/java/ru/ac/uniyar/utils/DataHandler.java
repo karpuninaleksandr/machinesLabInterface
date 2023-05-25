@@ -214,4 +214,14 @@ public class DataHandler {
         }
     }
 
+    public static void editRentAgreementExpireDate(int id, java.util.Date expireDate) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(19));
+            ps.setDate(1, new Date(expireDate.getTime()));
+            ps.setInt(2, id);
+            ps.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

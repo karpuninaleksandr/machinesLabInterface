@@ -560,4 +560,42 @@ public class MainPageController {
         inputBox.getChildren().addAll(rentAgreementIdLabel, rentAgreementIdBox, rateLabel, rateField, editButton, errorLabel);
         mainPane.getChildren().add(inputBox);
     }
+
+    @FXML
+    protected void onEditEndDateButtonClick() {
+        mainPane.getChildren().clear();
+        List<RentAgreement> rentAgreements = DataHandler.getRentAgreements();
+        ObservableList<Integer> rentAgreementIdObservable = FXCollections.observableList(rentAgreements.stream()
+                .map(RentAgreement::getId).collect(Collectors.toList()));
+        Label rentAgreementIdLabel = new Label("ID договора:");
+        ComboBox<Integer> rentAgreementIdBox = new ComboBox<>(rentAgreementIdObservable);
+        rentAgreementIdBox.setValue(rentAgreementIdObservable.stream().findFirst().orElse(null));
+        Label endDateLabel = new Label("Новая дата истечения договора:");
+        DatePicker endDatePicker = new DatePicker();
+        endDatePicker.setValue(LocalDate.now());
+        Button editButton = new Button("Продлить");
+        Label errorLabel = new Label();
+        editButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (rentAgreementIdBox.getValue() == null)
+                    errorLabel.setText("Заполните все поля перед изменением");
+                else {
+                    if (rentAgreements.stream().filter(it -> it.getId() == rentAgreementIdBox.getValue()).toList().get(0)
+                            .getExpireDate().after(Date.from(endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault())
+                                    .toInstant())))
+                        errorLabel.setText("Проверьте правильность заполнения поля \"Новая дата истечения договора:\"");
+                    else {
+                        DataHandler.editRentAgreementExpireDate(rentAgreementIdBox.getValue(),
+                                Date.from(endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                        onShowRentAgreementsButtonClick();
+                    }
+                }
+            }
+        });
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(rentAgreementIdLabel, rentAgreementIdBox, endDateLabel, endDatePicker, editButton,
+                errorLabel);
+        mainPane.getChildren().add(inputBox);
+    }
 }
