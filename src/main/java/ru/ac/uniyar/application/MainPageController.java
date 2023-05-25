@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -445,5 +446,51 @@ public class MainPageController {
         VBox deleteBox = new VBox();
         deleteBox.getChildren().addAll(paymentIdLabel, paymentBox, deleteButton, errorLabel);
         mainPane.getChildren().add(deleteBox);
+    }
+
+    @FXML
+    protected void onShowClientsViaRegexButtonClick() {
+        mainPane.getChildren().clear();
+        Label regexNameLabel = new Label("Имя содержит:");
+        TextField regexNameField = new TextField();
+        Label regexAddressLabel = new Label("Адрес содержит:");
+        TextField regexAddressField = new TextField();
+        Label regexPhoneNumberLabel = new Label("Телефон содержит:");
+        TextField regexPhoneNumberField = new TextField();
+        Button findButton = new Button("Найти");
+        findButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                List<Client> clients = DataHandler.searchClient("%".concat(regexNameField.getText()).concat("%"),
+                        "%".concat(regexAddressField.getText()).concat("%"),
+                        "%".concat(regexPhoneNumberLabel.getText()).concat("%"));
+                Node inputBox = mainPane.getChildren().get(0);
+                if (clients.isEmpty())
+                    ((VBox) inputBox).getChildren().add(new Label("Нет клиентов, удволетворяющих Вашему запросу"));
+                else {
+                    ObservableList<Client> clientsObservable = FXCollections.observableList(clients);
+
+                    TableColumn<Client, Integer> idColumn = new TableColumn<>("ID в таблице");
+                    idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    TableColumn<Client, String> nameColumn = new TableColumn<>("Имя");
+                    nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+                    TableColumn<Client, String> addressColumn = new TableColumn<>("Адрес");
+                    addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+                    TableColumn<Client, String> phoneNumberColumn = new TableColumn<>("Телефон");
+                    phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+
+                    TableView<Client> table = new TableView<>(clientsObservable);
+                    table.setPrefHeight(500);
+                    table.setPrefWidth(450);
+                    table.getColumns().addAll(idColumn, nameColumn, addressColumn, phoneNumberColumn);
+                    ((VBox) inputBox).getChildren().clear();
+                    ((VBox) inputBox).getChildren().add(table);
+                }
+            }
+        });
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(regexNameLabel, regexNameField, regexAddressLabel, regexAddressField,
+                regexPhoneNumberLabel, regexPhoneNumberField, findButton);
+        mainPane.getChildren().add(inputBox);
     }
 }

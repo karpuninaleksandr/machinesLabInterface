@@ -169,4 +169,22 @@ public class DataHandler {
         }
         return true;
     }
+
+    public static List<Client> searchClient(String regexName, String regexAddress, String regexPhoneNumber) {
+        List<Client> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(16));
+            ps.setString(1, regexName);
+            ps.setString(2, regexAddress);
+            ps.setString(3, regexName);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+                result.add(new Client(rs.getInt(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4)));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

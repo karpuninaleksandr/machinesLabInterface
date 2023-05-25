@@ -18,7 +18,8 @@ public enum SqlQueries {
     DeleteMachine(12, "DELETE FROM MACHINE WHERE ID = ?"),
     DeleteClient(13, "DELETE FROM CLIENT WHERE ID = ?"),
     DeleteRentAgreement(14, "DELETE FROM RENTAGREEMENT WHERE ID = ?"),
-    DeletePayment(15, "DELETE FROM PAYMENT WHERE ID = ?");
+    DeletePayment(15, "DELETE FROM PAYMENT WHERE ID = ?"),
+    SearchClient(16, "SELECT * FROM CLIENT WHERE NAME LIKE ? AND ADDRESS LIKE ? AND PHONENUMBER LIKE ?");
 
     private final int id;
     private final String query;
