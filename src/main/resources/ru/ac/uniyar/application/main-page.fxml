@@ -53,6 +53,7 @@
                                     <MenuItem mnemonicParsing="false" text="Список всех договоров" onAction="#onShowRentAgreementsButtonClick"/>
                                     <MenuItem mnemonicParsing="false" text="Добавление договора" onAction="#onAddRentAgreementButtonClick"/>
                                     <MenuItem mnemonicParsing="false" text="Удаление договора" onAction="#onDeleteRentAgreement"/>
+                                    <MenuItem mnemonicParsing="false" text="Найти договоры по дате заключения" onAction="#onShowRentAgreementsBetweenDatesButtonClick"/>
                                 </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Истории платежей">

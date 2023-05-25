@@ -15,6 +15,7 @@ import ru.ac.uniyar.objects.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -65,23 +66,8 @@ public class MainPageController {
 
     @FXML
     protected void onShowClientsButtonClick() {
-        ObservableList<Client> clients = FXCollections.observableList(DataHandler.getClients());
-
-        TableColumn<Client, Integer> idColumn = new TableColumn<>("ID в таблице");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Client, String> nameColumn = new TableColumn<>("Имя");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        TableColumn<Client, String> addressColumn = new TableColumn<>("Адрес");
-        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-        TableColumn<Client, String> phoneNumberColumn = new TableColumn<>("Телефон");
-        phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-
-        TableView<Client> table = new TableView<>(clients);
-        table.setPrefHeight(500);
-        table.setPrefWidth(450);
-        table.getColumns().addAll(idColumn, nameColumn, addressColumn, phoneNumberColumn);
         mainPane.getChildren().clear();
-        mainPane.getChildren().add(table);
+        mainPane.getChildren().add(makeClientTable(DataHandler.getClients()));
     }
 
     @FXML
@@ -107,30 +93,8 @@ public class MainPageController {
 
     @FXML
     protected void onShowRentAgreementsButtonClick() {
-        ObservableList<RentAgreement> clients = FXCollections.observableList(DataHandler.getRentAgreements());
-
-        TableColumn<RentAgreement, Integer> idColumn = new TableColumn<>("ID в таблице:");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<RentAgreement, String> paymentTypeColumn = new TableColumn<>("Тип платежей:");
-        paymentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("paymentType"));
-        TableColumn<RentAgreement, String> startDateColumn = new TableColumn<>("Дата начала договора:");
-        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        TableColumn<RentAgreement, String> expireDateColumn = new TableColumn<>("Дата окончания договора:");
-        expireDateColumn.setCellValueFactory(new PropertyValueFactory<>("expireDate"));
-        TableColumn<RentAgreement, String> rateColumn = new TableColumn<>("Тариф:");
-        rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        TableColumn<RentAgreement, String> clientIdColumn = new TableColumn<>("ID клиента в таблице:");
-        clientIdColumn.setCellValueFactory(new PropertyValueFactory<>("clientId"));
-        TableColumn<RentAgreement, String> machineIdColumn = new TableColumn<>("ID станка в таблице:");
-        machineIdColumn.setCellValueFactory(new PropertyValueFactory<>("machineId"));
-
-        TableView<RentAgreement> table = new TableView<>(clients);
-        table.setPrefHeight(500);
-        table.setPrefWidth(650);
-        table.getColumns().addAll(idColumn, paymentTypeColumn, startDateColumn, expireDateColumn, rateColumn,
-                clientIdColumn, machineIdColumn);
         mainPane.getChildren().clear();
-        mainPane.getChildren().add(table);
+        mainPane.getChildren().add(makeRentAgreementTable(DataHandler.getRentAgreements()));
     }
 
     @FXML
@@ -458,39 +422,105 @@ public class MainPageController {
         Label regexPhoneNumberLabel = new Label("Телефон содержит:");
         TextField regexPhoneNumberField = new TextField();
         Button findButton = new Button("Найти");
+        Label errorLabel = new Label();
         findButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 List<Client> clients = DataHandler.searchClient("%".concat(regexNameField.getText()).concat("%"),
                         "%".concat(regexAddressField.getText()).concat("%"),
                         "%".concat(regexPhoneNumberLabel.getText()).concat("%"));
-                Node inputBox = mainPane.getChildren().get(0);
-                if (clients.isEmpty())
-                    ((VBox) inputBox).getChildren().add(new Label("Нет клиентов, удволетворяющих Вашему запросу"));
+                if (clients.isEmpty()) errorLabel.setText("Нет клиентов, удволетворяющих Вашему запросу");
                 else {
-                    ObservableList<Client> clientsObservable = FXCollections.observableList(clients);
-
-                    TableColumn<Client, Integer> idColumn = new TableColumn<>("ID в таблице");
-                    idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-                    TableColumn<Client, String> nameColumn = new TableColumn<>("Имя");
-                    nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-                    TableColumn<Client, String> addressColumn = new TableColumn<>("Адрес");
-                    addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-                    TableColumn<Client, String> phoneNumberColumn = new TableColumn<>("Телефон");
-                    phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-
-                    TableView<Client> table = new TableView<>(clientsObservable);
-                    table.setPrefHeight(500);
-                    table.setPrefWidth(450);
-                    table.getColumns().addAll(idColumn, nameColumn, addressColumn, phoneNumberColumn);
-                    ((VBox) inputBox).getChildren().clear();
-                    ((VBox) inputBox).getChildren().add(table);
+                    VBox inputBox = (VBox) mainPane.getChildren().get(0);
+                    inputBox.getChildren().clear();
+                    inputBox.getChildren().add(makeClientTable(clients));
                 }
             }
         });
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(regexNameLabel, regexNameField, regexAddressLabel, regexAddressField,
-                regexPhoneNumberLabel, regexPhoneNumberField, findButton);
+                regexPhoneNumberLabel, regexPhoneNumberField, findButton, errorLabel);
+        mainPane.getChildren().add(inputBox);
+    }
+
+    private static TableView<Client> makeClientTable(List<Client> clients) {
+        ObservableList<Client> clientsObservable = FXCollections.observableList(clients);
+
+        TableColumn<Client, Integer> idColumn = new TableColumn<>("ID в таблице");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn<Client, String> nameColumn = new TableColumn<>("Имя");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<Client, String> addressColumn = new TableColumn<>("Адрес");
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        TableColumn<Client, String> phoneNumberColumn = new TableColumn<>("Телефон");
+        phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+
+        TableView<Client> table = new TableView<>(clientsObservable);
+        table.setPrefHeight(500);
+        table.setPrefWidth(450);
+        table.getColumns().addAll(idColumn, nameColumn, addressColumn, phoneNumberColumn);
+        return table;
+    }
+
+    private static TableView<RentAgreement> makeRentAgreementTable(List<RentAgreement> rentAgreements) {
+        ObservableList<RentAgreement> rentAgreementsObservable = FXCollections
+                .observableList(rentAgreements);
+
+        TableColumn<RentAgreement, Integer> idColumn = new TableColumn<>("ID в таблице:");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn<RentAgreement, String> paymentTypeColumn = new TableColumn<>("Тип платежей:");
+        paymentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("paymentType"));
+        TableColumn<RentAgreement, String> startDateColumn = new TableColumn<>("Дата начала договора:");
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        TableColumn<RentAgreement, String> expireDateColumn = new TableColumn<>("Дата окончания договора:");
+        expireDateColumn.setCellValueFactory(new PropertyValueFactory<>("expireDate"));
+        TableColumn<RentAgreement, String> rateColumn = new TableColumn<>("Тариф:");
+        rateColumn.setCellValueFactory(new PropertyValueFactory<>("rate"));
+        TableColumn<RentAgreement, String> clientIdColumn = new TableColumn<>("ID клиента в таблице:");
+        clientIdColumn.setCellValueFactory(new PropertyValueFactory<>("clientId"));
+        TableColumn<RentAgreement, String> machineIdColumn = new TableColumn<>("ID станка в таблице:");
+        machineIdColumn.setCellValueFactory(new PropertyValueFactory<>("machineId"));
+
+        TableView<RentAgreement> table = new TableView<>(rentAgreementsObservable);
+        table.setPrefHeight(500);
+        table.setPrefWidth(650);
+        table.getColumns().addAll(idColumn, paymentTypeColumn, startDateColumn, expireDateColumn, rateColumn,
+                clientIdColumn, machineIdColumn);
+        return table;
+    }
+
+    @FXML
+    protected void onShowRentAgreementsBetweenDatesButtonClick() {
+        mainPane.getChildren().clear();
+        Label startDateLabel = new Label("От:");
+        DatePicker startDatePicker = new DatePicker();
+        startDatePicker.setValue(LocalDate.now());
+        Label endDateLabel = new Label("До:");
+        DatePicker endDatePicker = new DatePicker();
+        endDatePicker.setValue(LocalDate.now());
+        Button findButton = new Button("Найти");
+        Label errorLabel = new Label();
+        findButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (startDatePicker.getValue().isAfter(endDatePicker.getValue())) {
+                    errorLabel.setText("Проверьте правильность заполнения полей \"От:\" и \"До:\"");
+                } else {
+                    List<RentAgreement> rentAgreements = DataHandler.searchRentAgreement(
+                            Date.from(startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                            Date.from(endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    if (rentAgreements.isEmpty()) errorLabel.setText("Нет договоров, заключенных за введенный период");
+                    else {
+                        VBox inputBox = (VBox) mainPane.getChildren().get(0);
+                        inputBox.getChildren().clear();
+                        inputBox.getChildren().add(makeRentAgreementTable(rentAgreements));
+                    }
+                }
+            }
+        });
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(startDateLabel, startDatePicker, endDateLabel, endDatePicker, findButton,
+                errorLabel);
         mainPane.getChildren().add(inputBox);
     }
 }

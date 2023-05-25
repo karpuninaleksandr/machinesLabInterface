@@ -176,7 +176,7 @@ public class DataHandler {
             PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(16));
             ps.setString(1, regexName);
             ps.setString(2, regexAddress);
-            ps.setString(3, regexName);
+            ps.setString(3, regexPhoneNumber);
             ResultSet rs = ps.executeQuery();
             while (rs.next())
                 result.add(new Client(rs.getInt(1), rs.getString(2), rs.getString(3),
@@ -187,4 +187,19 @@ public class DataHandler {
         return result;
     }
 
+    public static List<RentAgreement> searchRentAgreement(java.util.Date startDate, java.util.Date endDate) {
+        List<RentAgreement> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(17));
+            ps.setDate(1, new Date(startDate.getTime()));
+            ps.setDate(2, new Date(endDate.getTime()));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+                result.add(new RentAgreement(rs.getInt(1), rs.getString(2), rs.getDate(3),
+                        rs.getDate(4), rs.getDouble(5), rs.getInt(6), rs.getInt(7)));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
