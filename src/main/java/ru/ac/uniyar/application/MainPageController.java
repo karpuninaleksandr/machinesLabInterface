@@ -7,7 +7,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.DataFormat;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import ru.ac.uniyar.utils.DataHandler;
@@ -680,5 +679,33 @@ public class MainPageController {
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(dateLabel, datePicker, getButton, errorLabel);
         mainPane.getChildren().add(inputBox);
+    }
+
+    @FXML
+    protected void onGetClientsDebtButtonClick() {
+
+    }
+
+    @FXML
+    protected void onAboutAppButtonClick() {
+        mainPane.getChildren().clear();
+        VBox outBox = new VBox();
+        outBox.getChildren().addAll(new Label("                               О приложении"),
+                new Label("   Приложение - реализация лабораторной работы по курсу"),
+                new Label("Система управления базами данных Oracle."),
+                new Label("Все управление в приложении реализовано через меню в верхней"),
+                new Label("его части, в центральной будет отрисовываться выбранный"),
+                new Label("пользователем в меню контент."),
+                new Label("Все поля имеют свои правила заполнения, все они интуитивно понятны, а если"),
+                new Label("формат входящих данных будет неправилен, появится контекстное сообщение"),
+                new Label("о неправильном вводе."),
+                new Label("Важная ремарка ввода нецелочисленных значений: при вводе такого числа"),
+                new Label("разделителем между целой и дробной частью следует использовать точку, а не запятую."));
+        mainPane.getChildren().add(outBox);
+    }
+
+    @FXML
+    protected void onAboutProgrammerButtonClick() {
+
     }
 }
