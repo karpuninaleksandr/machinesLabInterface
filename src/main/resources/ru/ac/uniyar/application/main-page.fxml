@@ -81,7 +81,7 @@
                 <padding>
                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
                 </padding>
-                <VBox>
+                <VBox layoutX="300" layoutY="125">
                     <Label text="                               О приложении"/>
                     <Label text="   Приложение - реализация лабораторной работы по курсу"/>
                     <Label text="Система управления базами данных Oracle."/>

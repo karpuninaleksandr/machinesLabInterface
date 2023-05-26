@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -34,11 +35,13 @@ public class MainPageController {
         brandNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         TableView<Brand> table = new TableView<>(brands);
-        table.setPrefHeight(500);
-        table.setPrefWidth(250);
         table.getColumns().addAll(idColumn, brandNameColumn);
         mainPane.getChildren().clear();
         mainPane.getChildren().add(table);
+        table.setPrefHeight(700);
+        table.setPrefWidth(300);
+        table.setLayoutX(650 - table.getPrefWidth() / 2);
+        table.setLayoutY(400 - table.getPrefHeight() / 2);
     }
 
     @FXML
@@ -60,12 +63,21 @@ public class MainPageController {
         table.getColumns().addAll(idColumn, nameColumn, rentPriceColumn, brandIdColumn);
         mainPane.getChildren().clear();
         mainPane.getChildren().add(table);
+        table.setPrefHeight(700);
+        table.setPrefWidth(550);
+        table.setLayoutX(650 - table.getPrefWidth() / 2);
+        table.setLayoutY(400 - table.getPrefHeight() / 2);
     }
 
     @FXML
     protected void onShowClientsButtonClick() {
         mainPane.getChildren().clear();
-        mainPane.getChildren().add(makeClientTable(DataHandler.getClients()));
+        TableView table = makeClientTable(DataHandler.getClients());
+        mainPane.getChildren().add(table);
+        table.setPrefHeight(700);
+        table.setPrefWidth(650);
+        table.setLayoutX(650 - table.getPrefWidth() / 2);
+        table.setLayoutY(400 - table.getPrefHeight() / 2);
     }
 
     @FXML
@@ -82,17 +94,24 @@ public class MainPageController {
         moneyPaidColumn.setCellValueFactory(new PropertyValueFactory<>("moneyPaid"));
 
         TableView<Payment> table = new TableView<>(clients);
-        table.setPrefHeight(500);
-        table.setPrefWidth(450);
         table.getColumns().addAll(idColumn, dateColumn, rentAgreementIdColumn, moneyPaidColumn);
         mainPane.getChildren().clear();
         mainPane.getChildren().add(table);
+        table.setPrefHeight(700);
+        table.setPrefWidth(450);
+        table.setLayoutX(650 - table.getPrefWidth() / 2);
+        table.setLayoutY(400 - table.getPrefHeight() / 2);
     }
 
     @FXML
     protected void onShowRentAgreementsButtonClick() {
         mainPane.getChildren().clear();
-        mainPane.getChildren().add(makeRentAgreementTable(DataHandler.getRentAgreements()));
+        TableView table = makeRentAgreementTable(DataHandler.getRentAgreements());
+        mainPane.getChildren().add(table);
+        table.setPrefHeight(700);
+        table.setPrefWidth(900);
+        table.setLayoutX(650 - table.getPrefWidth() / 2);
+        table.setLayoutY(400 - table.getPrefHeight() / 2);
     }
 
     @FXML
@@ -116,6 +135,11 @@ public class MainPageController {
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(nameLabel, nameField, addButton, errorLabel);
         mainPane.getChildren().addAll(inputBox);
+        inputBox.setPrefHeight(700);
+        inputBox.setPrefWidth(550);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -153,6 +177,11 @@ public class MainPageController {
         inputBox.getChildren().addAll(nameLabel, nameField, rentPriceLabel, rentPriceField, brandIdLabel, brandBox,
                 addButton, errorLabel);
         mainPane.getChildren().addAll(inputBox);
+        inputBox.setPrefHeight(700);
+        inputBox.setPrefWidth(550);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -186,6 +215,11 @@ public class MainPageController {
         inputBox.getChildren().addAll(nameLabel, nameField, addressLabel, addressField, phoneNumberLabel, phoneNumberField,
                 addButton);
         mainPane.getChildren().addAll(inputBox);
+        inputBox.setPrefHeight(700);
+        inputBox.setPrefWidth(550);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -247,6 +281,11 @@ public class MainPageController {
         inputBox.getChildren().addAll(paymentTypeLabel, paymentTypeBox, startDateLabel, startDatePicker, expireDateLabel,
                 expireDatePicker, rateLabel, rateField, clientLabel, clientBox, machineLabel, machineBox, addButton, errorLabel);
         mainPane.getChildren().add(inputBox);
+        inputBox.setPrefHeight(700);
+        inputBox.setPrefWidth(550);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -283,6 +322,11 @@ public class MainPageController {
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(dateLabel, datePicker, moneyPaidLabel, moneyPaidField, rentAgreementLabel, rentAgreementBox, addButton);
         mainPane.getChildren().add(inputBox);
+        inputBox.setPrefHeight(700);
+        inputBox.setPrefWidth(550);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -308,6 +352,11 @@ public class MainPageController {
         VBox deleteBox = new VBox();
         deleteBox.getChildren().addAll(brandIdLabel, brandBox, deleteButton, errorLabel);
         mainPane.getChildren().add(deleteBox);
+        deleteBox.setPrefHeight(200);
+        deleteBox.setPrefWidth(150);
+        deleteBox.setLayoutX(650 - deleteBox.getPrefWidth() / 2);
+        deleteBox.setLayoutY(400 - deleteBox.getPrefHeight() / 2);
+        deleteBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -333,6 +382,11 @@ public class MainPageController {
         VBox deleteBox = new VBox();
         deleteBox.getChildren().addAll(machineIdLabel, machineBox, deleteButton, errorLabel);
         mainPane.getChildren().add(deleteBox);
+        deleteBox.setPrefHeight(200);
+        deleteBox.setPrefWidth(150);
+        deleteBox.setLayoutX(650 - deleteBox.getPrefWidth() / 2);
+        deleteBox.setLayoutY(400 - deleteBox.getPrefHeight() / 2);
+        deleteBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -358,6 +412,11 @@ public class MainPageController {
         VBox deleteBox = new VBox();
         deleteBox.getChildren().addAll(clientIdLabel, clientBox, deleteButton, errorLabel);
         mainPane.getChildren().add(deleteBox);
+        deleteBox.setPrefHeight(200);
+        deleteBox.setPrefWidth(150);
+        deleteBox.setLayoutX(650 - deleteBox.getPrefWidth() / 2);
+        deleteBox.setLayoutY(400 - deleteBox.getPrefHeight() / 2);
+        deleteBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -383,6 +442,11 @@ public class MainPageController {
         VBox deleteBox = new VBox();
         deleteBox.getChildren().addAll(rentAgreementIdLabel, rentAgreementBox, deleteButton, errorLabel);
         mainPane.getChildren().add(deleteBox);
+        deleteBox.setPrefHeight(200);
+        deleteBox.setPrefWidth(150);
+        deleteBox.setLayoutX(650 - deleteBox.getPrefWidth() / 2);
+        deleteBox.setLayoutY(400 - deleteBox.getPrefHeight() / 2);
+        deleteBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -408,6 +472,11 @@ public class MainPageController {
         VBox deleteBox = new VBox();
         deleteBox.getChildren().addAll(paymentIdLabel, paymentBox, deleteButton, errorLabel);
         mainPane.getChildren().add(deleteBox);
+        deleteBox.setPrefHeight(200);
+        deleteBox.setPrefWidth(150);
+        deleteBox.setLayoutX(650 - deleteBox.getPrefWidth() / 2);
+        deleteBox.setLayoutY(400 - deleteBox.getPrefHeight() / 2);
+        deleteBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -431,7 +500,12 @@ public class MainPageController {
                 else {
                     VBox inputBox = (VBox) mainPane.getChildren().get(0);
                     inputBox.getChildren().clear();
-                    inputBox.getChildren().add(makeClientTable(clients));
+                    TableView table = makeClientTable(clients);
+                    inputBox.getChildren().add(table);
+                    inputBox.setPrefHeight(700);
+                    inputBox.setPrefWidth(650);
+                    inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+                    inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
                 }
             }
         });
@@ -439,6 +513,11 @@ public class MainPageController {
         inputBox.getChildren().addAll(regexNameLabel, regexNameField, regexAddressLabel, regexAddressField,
                 regexPhoneNumberLabel, regexPhoneNumberField, findButton, errorLabel);
         mainPane.getChildren().add(inputBox);
+        inputBox.setPrefHeight(700);
+        inputBox.setPrefWidth(550);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     private static TableView<Client> makeClientTable(List<Client> clients) {
@@ -454,8 +533,6 @@ public class MainPageController {
         phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
         TableView<Client> table = new TableView<>(clientsObservable);
-        table.setPrefHeight(500);
-        table.setPrefWidth(450);
         table.getColumns().addAll(idColumn, nameColumn, addressColumn, phoneNumberColumn);
         return table;
     }
@@ -480,8 +557,6 @@ public class MainPageController {
         machineIdColumn.setCellValueFactory(new PropertyValueFactory<>("machineId"));
 
         TableView<RentAgreement> table = new TableView<>(rentAgreementsObservable);
-        table.setPrefHeight(500);
-        table.setPrefWidth(650);
         table.getColumns().addAll(idColumn, paymentTypeColumn, startDateColumn, expireDateColumn, rateColumn,
                 clientIdColumn, machineIdColumn);
         return table;
@@ -511,7 +586,12 @@ public class MainPageController {
                     else {
                         VBox inputBox = (VBox) mainPane.getChildren().get(0);
                         inputBox.getChildren().clear();
-                        inputBox.getChildren().add(makeRentAgreementTable(rentAgreements));
+                        TableView<RentAgreement> table = makeRentAgreementTable(rentAgreements);
+                        inputBox.getChildren().add(table);
+                        inputBox.setPrefHeight(700);
+                        inputBox.setPrefWidth(900);
+                        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+                        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
                     }
                 }
             }
@@ -520,6 +600,11 @@ public class MainPageController {
         inputBox.getChildren().addAll(startDateLabel, startDatePicker, endDateLabel, endDatePicker, findButton,
                 errorLabel);
         mainPane.getChildren().add(inputBox);
+        inputBox.setPrefHeight(300);
+        inputBox.setPrefWidth(350);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -558,6 +643,11 @@ public class MainPageController {
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(rentAgreementIdLabel, rentAgreementIdBox, rateLabel, rateField, editButton, errorLabel);
         mainPane.getChildren().add(inputBox);
+        inputBox.setPrefHeight(400);
+        inputBox.setPrefWidth(550);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -596,6 +686,11 @@ public class MainPageController {
         inputBox.getChildren().addAll(rentAgreementIdLabel, rentAgreementIdBox, endDateLabel, endDatePicker, editButton,
                 errorLabel);
         mainPane.getChildren().add(inputBox);
+        inputBox.setPrefHeight(400);
+        inputBox.setPrefWidth(550);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -625,20 +720,26 @@ public class MainPageController {
                     debtColumn.setCellValueFactory(new PropertyValueFactory<>("debt"));
 
                     TableView<ClientWithDebt> table = new TableView<>(clients);
-                    table.setPrefHeight(500);
-                    table.setPrefWidth(450);
                     table.getColumns().addAll(idColumn, nameColumn, rentAgreementIdColumn, debtColumn);
 
                     VBox inputBox = (VBox) mainPane.getChildren().get(0);
                     inputBox.getChildren().clear();
                     inputBox.getChildren().add(table);
+                    inputBox.setPrefHeight(700);
+                    inputBox.setPrefWidth(1000);
+                    inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+                    inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
                 }
             }
         });
-
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(dateLabel, datePicker, getButton, errorLabel);
         mainPane.getChildren().add(inputBox);
+        inputBox.setPrefHeight(400);
+        inputBox.setPrefWidth(450);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
     @FXML
     protected void onGetDebtOwnersButtonClick() {
@@ -667,20 +768,26 @@ public class MainPageController {
                     debtColumn.setCellValueFactory(new PropertyValueFactory<>("debt"));
 
                     TableView<ClientWithDebt> table = new TableView<>(clients);
-                    table.setPrefHeight(500);
-                    table.setPrefWidth(450);
                     table.getColumns().addAll(idColumn, nameColumn, rentAgreementIdColumn, debtColumn);
 
                     VBox inputBox = (VBox) mainPane.getChildren().get(0);
                     inputBox.getChildren().clear();
                     inputBox.getChildren().add(table);
+                    inputBox.setPrefHeight(700);
+                    inputBox.setPrefWidth(1000);
+                    inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+                    inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
                 }
             }
         });
-
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(dateLabel, datePicker, getButton, errorLabel);
         mainPane.getChildren().add(inputBox);
+        inputBox.setPrefHeight(400);
+        inputBox.setPrefWidth(450);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -717,13 +824,15 @@ public class MainPageController {
                         debtColumn.setCellValueFactory(new PropertyValueFactory<>("debt"));
 
                         TableView<ClientWithDebt> table = new TableView<>(clients);
-                        table.setPrefHeight(500);
-                        table.setPrefWidth(450);
                         table.getColumns().addAll(idColumn, nameColumn, rentAgreementIdColumn, debtColumn);
 
                         VBox inputBox = (VBox) mainPane.getChildren().get(0);
                         inputBox.getChildren().clear();
                         inputBox.getChildren().add(table);
+                        inputBox.setPrefHeight(700);
+                        inputBox.setPrefWidth(1000);
+                        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+                        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
                     }
                 }
             }
@@ -731,6 +840,11 @@ public class MainPageController {
         VBox inputBox = new VBox();
         inputBox.getChildren().addAll(clientLabel, clientBox, dateLabel, datePicker, getButton, errorLabel);
         mainPane.getChildren().add(inputBox);
+        inputBox.setPrefHeight(400);
+        inputBox.setPrefWidth(450);
+        inputBox.setLayoutX(650 - inputBox.getPrefWidth() / 2);
+        inputBox.setLayoutY(400 - inputBox.getPrefHeight() / 2);
+        inputBox.setAlignment(Pos.CENTER);
     }
 
     @FXML
@@ -749,6 +863,10 @@ public class MainPageController {
                 new Label("Важная ремарка ввода нецелочисленных значений: при вводе такого числа"),
                 new Label("разделителем между целой и дробной частью следует использовать точку, а не запятую."));
         mainPane.getChildren().add(outBox);
+        outBox.setPrefHeight(700);
+        outBox.setPrefWidth(550);
+        outBox.setLayoutX(650 - outBox.getPrefWidth() / 2);
+        outBox.setLayoutY(450 - outBox.getPrefHeight() / 2);
     }
 
     @FXML
@@ -759,5 +877,9 @@ public class MainPageController {
                 new Label("   Разработчиком данного приложения является студент ЯрГУ имени П.Г. Демидова"),
                 new Label("группы ИВТ-32 Карпунин Александр Олегович."));
         mainPane.getChildren().add(outBox);
+        outBox.setPrefHeight(700);
+        outBox.setPrefWidth(550);
+        outBox.setLayoutX(650 - outBox.getPrefWidth() / 2);
+        outBox.setLayoutY(450 - outBox.getPrefHeight() / 2);
     }
 }
