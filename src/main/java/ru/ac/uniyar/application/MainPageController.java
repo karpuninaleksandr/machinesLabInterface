@@ -603,6 +603,7 @@ public class MainPageController {
         mainPane.getChildren().clear();
         Label dateLabel = new Label("Дата:");
         DatePicker datePicker = new DatePicker();
+        datePicker.setValue(LocalDate.now());
         Button getButton = new Button("Найти");
         Label errorLabel = new Label();
         getButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -644,6 +645,7 @@ public class MainPageController {
         mainPane.getChildren().clear();
         Label dateLabel = new Label("Дата:");
         DatePicker datePicker = new DatePicker();
+        datePicker.setValue(LocalDate.now());
         Button getButton = new Button("Найти");
         Label errorLabel = new Label();
         getButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -682,8 +684,53 @@ public class MainPageController {
     }
 
     @FXML
-    protected void onGetClientsDebtButtonClick() {
+    protected void onGetClientDebtsButtonClick() {
+        mainPane.getChildren().clear();
+        ObservableList<Integer> clients = FXCollections.observableList(DataHandler.getClients().stream().map(Client::getId)
+                .collect(Collectors.toList()));
+        Label clientLabel = new Label("ID клиента:");
+        ComboBox<Integer> clientBox = new ComboBox<>(clients);
+        Label dateLabel = new Label("Дата:");
+        DatePicker datePicker = new DatePicker();
+        datePicker.setValue(LocalDate.now());
+        clientBox.setValue(clients.stream().findFirst().orElse(null));
+        Button getButton = new Button("Найти задолженности");
+        Label errorLabel = new Label();
+        getButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (clientBox.getValue() == null) errorLabel.setText("Заполните все поля перед вызовом функции");
+                else {
+                    ObservableList<ClientWithDebt> clients = FXCollections.observableList(DataHandler.getClientDebts(
+                            clientBox.getValue(), Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault())
+                                    .toInstant())));
+                    if (clients.isEmpty())
+                        errorLabel.setText("У клиента нет задолженностей на выбранное время");
+                    else {
+                        TableColumn<ClientWithDebt, Integer> idColumn = new TableColumn<>("ID клиента в таблице");
+                        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                        TableColumn<ClientWithDebt, String> nameColumn = new TableColumn<>("Имя");
+                        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+                        TableColumn<ClientWithDebt, String> rentAgreementIdColumn = new TableColumn<>("ID договора в таблице");
+                        rentAgreementIdColumn.setCellValueFactory(new PropertyValueFactory<>("rentAgreementId"));
+                        TableColumn<ClientWithDebt, String> debtColumn = new TableColumn<>("Долг");
+                        debtColumn.setCellValueFactory(new PropertyValueFactory<>("debt"));
 
+                        TableView<ClientWithDebt> table = new TableView<>(clients);
+                        table.setPrefHeight(500);
+                        table.setPrefWidth(450);
+                        table.getColumns().addAll(idColumn, nameColumn, rentAgreementIdColumn, debtColumn);
+
+                        VBox inputBox = (VBox) mainPane.getChildren().get(0);
+                        inputBox.getChildren().clear();
+                        inputBox.getChildren().add(table);
+                    }
+                }
+            }
+        });
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(clientLabel, clientBox, dateLabel, datePicker, getButton, errorLabel);
+        mainPane.getChildren().add(inputBox);
     }
 
     @FXML

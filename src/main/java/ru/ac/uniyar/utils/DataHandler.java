@@ -246,4 +246,19 @@ public class DataHandler {
         }
         return result;
     }
+
+    public static List<ClientWithDebt> getClientDebts(int id, java.util.Date date) {
+        List<ClientWithDebt> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(22));
+            for (int i = 1; i < 5; ++i) ps.setDate(i, new Date(date.getTime()));
+            ps.setInt(5, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) result.add(new ClientWithDebt(rs.getInt(1), rs.getString(2),
+                    rs.getInt(3), rs.getDouble(4)));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
 }
