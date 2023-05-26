@@ -706,6 +706,11 @@ public class MainPageController {
 
     @FXML
     protected void onAboutProgrammerButtonClick() {
-
+        mainPane.getChildren().clear();
+        VBox outBox = new VBox();
+        outBox.getChildren().addAll(new Label("                               О разработчике"),
+                new Label("   Разработчиком данного приложения является студент ЯрГУ имени П.Г. Демидова"),
+                new Label("группы ИВТ-32 Карпунин Александр Олегович."));
+        mainPane.getChildren().add(outBox);
     }
 }
