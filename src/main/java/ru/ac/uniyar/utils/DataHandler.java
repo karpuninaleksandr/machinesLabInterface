@@ -224,4 +224,26 @@ public class DataHandler {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<ClientWithDebt> getDebtOwners(java.util.Date date) {
+        return getClientsWithDebt(21, date);
+    }
+
+    public static List<ClientWithDebt> getForwardPayers(java.util.Date date) {
+        return getClientsWithDebt(20, date);
+    }
+
+    private static List<ClientWithDebt> getClientsWithDebt(int queryId, java.util.Date date) {
+        List<ClientWithDebt> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(SqlQueries.getQueryById(queryId));
+            for (int i = 1; i < 5; ++i) ps.setDate(i, new Date(date.getTime()));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) result.add(new ClientWithDebt(rs.getInt(1), rs.getString(2),
+                    rs.getInt(3), rs.getDouble(4)));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
 }

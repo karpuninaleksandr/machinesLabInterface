@@ -598,4 +598,87 @@ public class MainPageController {
                 errorLabel);
         mainPane.getChildren().add(inputBox);
     }
+
+    @FXML
+    protected void onGetForwardPayersButtonClick() {
+        mainPane.getChildren().clear();
+        Label dateLabel = new Label("Дата:");
+        DatePicker datePicker = new DatePicker();
+        Button getButton = new Button("Найти");
+        Label errorLabel = new Label();
+        getButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                ObservableList<ClientWithDebt> clients = FXCollections.observableList(DataHandler.getForwardPayers(Date
+                        .from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant())));
+
+                if (clients.isEmpty())
+                    errorLabel.setText("Нет клиентов, удовлетворяющих Вашему запросу");
+                else {
+                    TableColumn<ClientWithDebt, Integer> idColumn = new TableColumn<>("ID клиента в таблице");
+                    idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    TableColumn<ClientWithDebt, String> nameColumn = new TableColumn<>("Имя");
+                    nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+                    TableColumn<ClientWithDebt, String> rentAgreementIdColumn = new TableColumn<>("ID договора в таблице");
+                    rentAgreementIdColumn.setCellValueFactory(new PropertyValueFactory<>("rentAgreementId"));
+                    TableColumn<ClientWithDebt, String> debtColumn = new TableColumn<>("Количество средств, уплаченных наперед");
+                    debtColumn.setCellValueFactory(new PropertyValueFactory<>("debt"));
+
+                    TableView<ClientWithDebt> table = new TableView<>(clients);
+                    table.setPrefHeight(500);
+                    table.setPrefWidth(450);
+                    table.getColumns().addAll(idColumn, nameColumn, rentAgreementIdColumn, debtColumn);
+
+                    VBox inputBox = (VBox) mainPane.getChildren().get(0);
+                    inputBox.getChildren().clear();
+                    inputBox.getChildren().add(table);
+                }
+            }
+        });
+
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(dateLabel, datePicker, getButton, errorLabel);
+        mainPane.getChildren().add(inputBox);
+    }
+    @FXML
+    protected void onGetDebtOwnersButtonClick() {
+        mainPane.getChildren().clear();
+        Label dateLabel = new Label("Дата:");
+        DatePicker datePicker = new DatePicker();
+        Button getButton = new Button("Найти");
+        Label errorLabel = new Label();
+        getButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                ObservableList<ClientWithDebt> clients = FXCollections.observableList(DataHandler.getDebtOwners(Date
+                        .from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant())));
+
+                if (clients.isEmpty())
+                    errorLabel.setText("Нет клиентов, удовлетворяющих Вашему запросу");
+                else {
+                    TableColumn<ClientWithDebt, Integer> idColumn = new TableColumn<>("ID клиента в таблице");
+                    idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    TableColumn<ClientWithDebt, String> nameColumn = new TableColumn<>("Имя");
+                    nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+                    TableColumn<ClientWithDebt, String> rentAgreementIdColumn = new TableColumn<>("ID договора в таблице");
+                    rentAgreementIdColumn.setCellValueFactory(new PropertyValueFactory<>("rentAgreementId"));
+                    TableColumn<ClientWithDebt, String> debtColumn = new TableColumn<>("Долг");
+                    debtColumn.setCellValueFactory(new PropertyValueFactory<>("debt"));
+
+                    TableView<ClientWithDebt> table = new TableView<>(clients);
+                    table.setPrefHeight(500);
+                    table.setPrefWidth(450);
+                    table.getColumns().addAll(idColumn, nameColumn, rentAgreementIdColumn, debtColumn);
+
+                    VBox inputBox = (VBox) mainPane.getChildren().get(0);
+                    inputBox.getChildren().clear();
+                    inputBox.getChildren().add(table);
+                }
+            }
+        });
+
+        VBox inputBox = new VBox();
+        inputBox.getChildren().addAll(dateLabel, datePicker, getButton, errorLabel);
+        mainPane.getChildren().add(inputBox);
+    }
 }

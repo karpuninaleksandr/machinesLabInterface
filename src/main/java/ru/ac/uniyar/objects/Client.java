@@ -20,6 +20,13 @@ public class Client implements Entity {
         this.phoneNumber = phoneNumber;
     }
 
+    public Client(int id, String name) {
+        this.id = id;
+        this.name = name;
+        this.address = "";
+        this.phoneNumber = "";
+    }
+
     public int getId() {
         return this.id;
     }
@@ -33,3 +40,4 @@ public class Client implements Entity {
         return this.phoneNumber;
     }
 }
+

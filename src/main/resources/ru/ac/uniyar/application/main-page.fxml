@@ -46,6 +46,9 @@
                                     <MenuItem mnemonicParsing="false" text="Добавление клиента" onAction="#onAddClientButtonClick"/>
                                     <MenuItem mnemonicParsing="false" text="Удаление клиента" onAction="#onDeleteClient"/>
                                     <MenuItem mnemonicParsing="false" text="Найти клиента" onAction="#onShowClientsViaRegexButtonClick"/>
+                                    <MenuItem mnemonicParsing="false" text="Список клиентов, оплативших наперед" onAction="#onGetForwardPayersButtonClick"/>
+                                    <MenuItem mnemonicParsing="false" text="Список неплательщиков" onAction="#onGetDebtOwnersButtonClick"/>
+
                                 </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Договоры об аренде">
