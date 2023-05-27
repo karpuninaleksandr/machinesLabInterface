@@ -310,11 +310,17 @@ public class MainPageController {
                     errorLabel.setText("Заполните все поля перед добавлением");
                 } else {
                     if (!moneyPaidField.getText().matches("\\d*")) {
-                        errorLabel.setText("Значение поля \"Количество внесенных средств:\" должно быьб целочисленным");
+                        errorLabel.setText("Значение поля \"Количество внесенных средств:\" должно быть целочисленным");
                     } else {
-                        DataHandler.addPayment(new Payment(Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                                rentAgreementBox.getValue(), Integer.parseInt(moneyPaidField.getText())));
-                        onShowPaymentsButtonClick();
+                        if (Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant())
+                                .before(rentAgreements.stream().filter(it -> it.getId() == rentAgreementBox.getValue())
+                                        .toList().get(0).getStartDate()))
+                            errorLabel.setText("Платеж не может быть выполнен до заключения договора");
+                        else {
+                            DataHandler.addPayment(new Payment(Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                    rentAgreementBox.getValue(), Integer.parseInt(moneyPaidField.getText())));
+                            onShowPaymentsButtonClick();
+                        }
                     }
                 }
             }

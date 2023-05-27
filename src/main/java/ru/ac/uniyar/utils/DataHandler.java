@@ -53,8 +53,8 @@ public class DataHandler {
                 }
                 case 2 -> {
                     while (rs.next()) {
-                        result.add(new Machine(rs.getInt(1), rs.getString(4), rs.getInt(2),
-                                rs.getInt(3)));
+                        result.add(new Machine(rs.getInt(1), rs.getString(2), rs.getInt(3),
+                                rs.getInt(4)));
                     }
                 }
                 case 3 -> {

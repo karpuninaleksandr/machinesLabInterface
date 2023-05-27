@@ -7,7 +7,7 @@ public enum SqlQueries {
     GetAllMachines(2, "SELECT * FROM MACHINE ORDER BY ID"),
     GetAllClients(3, "SELECT * FROM CLIENT ORDER BY ID"),
     GetAllPayments(4, "SELECT * FROM PAYMENT ORDER BY ID"),
-    GetAllRentAgreements(5, "SELECT * FROM RENTAGREEMENT ORDER BY ID"),
+    GetAllRentAgreements(5, "SELECT * FROM RENTAGREEMENT"),
     AddBrand(6, "INSERT INTO BRAND (NAME) VALUES (?)"),
     AddMachine(7, "INSERT INTO MACHINE (NAME, RENTPRICE, BRANDID) VALUES (?, ?, ?)"),
     AddClient(8, "INSERT INTO CLIENT (NAME, ADDRESS, PHONENUMBER) VALUES (?, ?, ?)"),
