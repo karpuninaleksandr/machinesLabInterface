@@ -501,7 +501,7 @@ public class MainPageController {
             public void handle(ActionEvent actionEvent) {
                 List<Client> clients = DataHandler.searchClient("%".concat(regexNameField.getText()).concat("%"),
                         "%".concat(regexAddressField.getText()).concat("%"),
-                        "%".concat(regexPhoneNumberLabel.getText()).concat("%"));
+                        "%".concat(regexPhoneNumberField.getText()).concat("%"));
                 if (clients.isEmpty()) errorLabel.setText("Нет клиентов, удволетворяющих Вашему запросу");
                 else {
                     VBox inputBox = (VBox) mainPane.getChildren().get(0);
